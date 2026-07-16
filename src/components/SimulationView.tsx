@@ -86,7 +86,7 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
       className="h-[calc(100vh-6rem)] relative flex flex-col text-white"
     >
       {/* 3D Map View Layer (Absolute Background of page content area) */}
-      <div className="absolute inset-0 z-0 rounded-2xl overflow-hidden border border-white/10 glass-panel select-none">
+      <div className="absolute inset-0 z-0 rounded-2xl overflow-hidden border border-white/10 bg-[#070c1e] select-none">
         
         {/* Transform Wrapper for 3D and Zoom */}
         <div
@@ -204,7 +204,7 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
         >
           
           {/* Scenario Overview Card */}
-          <div className="glass-panel bg-slate-950/90 p-5 rounded-2xl shadow-sm border border-white/10">
+          <div className="bg-[#0b1329]/95 backdrop-blur-md p-5 rounded-2xl shadow-xl border border-white/15">
             <div className="flex items-center justify-between mb-3.5">
               <span className="font-mono text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                 Active Scenario
@@ -226,7 +226,7 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
           </div>
 
           {/* Simulation Parameters Slider Panel */}
-          <div className="glass-panel bg-slate-950/90 p-5 rounded-2xl flex-1 overflow-y-auto space-y-6 shadow-sm border border-white/10">
+          <div className="bg-[#0b1329]/95 backdrop-blur-md p-5 rounded-2xl flex-1 overflow-y-auto space-y-6 shadow-xl border border-white/15">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <h3 className="text-sm font-extrabold text-white font-sans flex items-center">
                 <span className="material-symbols-outlined mr-2 text-indigo-400 text-lg">tune</span>
@@ -494,7 +494,7 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
 
           <div className="space-y-4">
             {/* Impact Card 1: CO2 Reduction */}
-            <div className="glass-panel bg-slate-950/90 p-4 rounded-xl relative overflow-hidden group border border-white/10">
+            <div className="bg-[#0b1329]/95 border border-white/15 p-4 rounded-xl relative overflow-hidden group shadow-xl">
               <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
                 <span className="material-symbols-outlined text-4xl text-indigo-400">eco</span>
               </div>
@@ -512,7 +512,7 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
             </div>
 
             {/* Impact Card 2: Estimated ROI */}
-            <div className="glass-panel bg-slate-950/90 p-4 rounded-xl relative overflow-hidden group border border-white/10">
+            <div className="bg-[#0b1329]/95 border border-white/15 p-4 rounded-xl relative overflow-hidden group shadow-xl">
               <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
                 <span className="material-symbols-outlined text-4xl text-pink-400">monetization_on</span>
               </div>
@@ -533,7 +533,7 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
             </div>
 
             {/* Impact Card 3: Traffic Impact */}
-            <div className="glass-panel bg-slate-950/90 p-4 rounded-xl relative overflow-hidden group border border-white/10">
+            <div className="bg-[#0b1329]/95 border border-white/15 p-4 rounded-xl relative overflow-hidden group shadow-xl">
               <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
                 <span className="material-symbols-outlined text-4xl text-slate-400">commute</span>
               </div>
@@ -571,7 +571,7 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
               </p>
               
               <div className="space-y-1.5 text-left">
-                <div className="glass-panel p-2.5 rounded-xl flex items-start gap-2 hover:bg-white/10 hover:border-white/20 transition-all">
+                <div className="bg-[#0d152b]/95 border border-white/10 p-2.5 rounded-xl flex items-start gap-2 hover:bg-white/10 hover:border-white/20 transition-all shadow">
                   <span className="material-symbols-outlined text-xs text-emerald-400 mt-0.5">park</span>
                   <div>
                     <p className="text-[10px] font-bold text-slate-200">Policy 1: Eco-Roof Canopy Mandate</p>
@@ -579,7 +579,7 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
                   </div>
                 </div>
 
-                <div className="glass-panel p-2.5 rounded-xl flex items-start gap-2 hover:bg-white/10 hover:border-white/20 transition-all">
+                <div className="bg-[#0d152b]/95 border border-white/10 p-2.5 rounded-xl flex items-start gap-2 hover:bg-white/10 hover:border-white/20 transition-all shadow">
                   <span className="material-symbols-outlined text-xs text-indigo-400 mt-0.5">directions_transit</span>
                   <div>
                     <p className="text-[10px] font-bold text-slate-200">Policy 2: High-Frequency Transit Arterial</p>
@@ -587,7 +587,7 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
                   </div>
                 </div>
 
-                <div className="glass-panel p-2.5 rounded-xl flex items-start gap-2 hover:bg-white/10 hover:border-white/20 transition-all">
+                <div className="bg-[#0d152b]/95 border border-white/10 p-2.5 rounded-xl flex items-start gap-2 hover:bg-white/10 hover:border-white/20 transition-all shadow">
                   <span className="material-symbols-outlined text-xs text-pink-400 mt-0.5">wb_sunny</span>
                   <div>
                     <p className="text-[10px] font-bold text-slate-200">Policy 3: Cool-Asphalt Albedo Surfacing</p>
@@ -595,7 +595,7 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
                   </div>
                 </div>
 
-                <div className="glass-panel p-2.5 rounded-xl flex items-start gap-2 hover:bg-white/10 hover:border-white/20 transition-all">
+                <div className="bg-[#0d152b]/95 border border-white/10 p-2.5 rounded-xl flex items-start gap-2 hover:bg-white/10 hover:border-white/20 transition-all shadow">
                   <span className="material-symbols-outlined text-xs text-amber-400 mt-0.5">battery_charging_full</span>
                   <div>
                     <p className="text-[10px] font-bold text-slate-200">Policy 4: Micro-Grid Dynamic Shaving</p>
@@ -648,7 +648,7 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
       </div>
 
       {/* Bottom Data Feed Strip Overlay */}
-      <div className={`relative z-10 mt-auto select-none glass-panel bg-slate-950/95 border border-white/10 rounded-2xl px-6 py-3.5 flex items-center justify-between gap-6 shadow-lg mb-2 text-white transition-all duration-500 ease-in-out ${
+      <div className={`relative z-10 mt-auto select-none bg-[#0b1329]/95 border border-white/15 rounded-2xl px-6 py-3.5 flex items-center justify-between gap-6 shadow-xl mb-2 text-white transition-all duration-500 ease-in-out ${
         is3D 
           ? "opacity-0 translate-y-12 pointer-events-none scale-95" 
           : "pointer-events-auto opacity-100"

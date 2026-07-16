@@ -8,6 +8,7 @@ import { ReportingHubView } from "./components/ReportingHubView";
 import { AnalyticsView } from "./components/AnalyticsView";
 import { ViewType, CivicAlert, SimulationParams, SimulationResult, ChatMessage, EmployeeSuggestion } from "./types";
 import { motion, AnimatePresence } from "motion/react";
+import { getLocalAdvisorResponse } from "./lib/localAdvisor";
 
 const INITIAL_SUGGESTIONS: EmployeeSuggestion[] = [
   {
@@ -284,15 +285,11 @@ export default function App() {
 
     if (isAskingAboutCreators) {
       setTimeout(() => {
+        const fallbackReply = getLocalAdvisorResponse(content, simulationParams, simulationResult);
         const assistantMsg: ChatMessage = {
           id: `msg-ai-${Date.now()}`,
           role: "assistant",
-          content: `Here are the details of the developers and creators of this website:
-
-**Members Role -**
-1. **Dipender, Divyam** - Front-End Development, Back-end Development, AI Model Development(Coding part), Model Testing, Analysis, Model Integration
-2. **Shreya** - Study Material(Content), Database 
-3. **Prakhar** - Documentation, PPT, Project File`,
+          content: fallbackReply,
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         };
         setChatHistory(prev => [...prev, assistantMsg]);
@@ -327,16 +324,13 @@ export default function App() {
       setIsResponding(false);
     } catch (err) {
       console.error(err);
-      // Realistic fallback advisory chat reply
+      // Realistic fallback advisory chat reply utilizing our smart client-side NLP generator
       setTimeout(() => {
+        const fallbackReply = getLocalAdvisorResponse(content, simulationParams, simulationResult);
         const assistantMsg: ChatMessage = {
           id: `msg-ai-${Date.now()}`,
           role: "assistant",
-          content: `Thank you for the operational query. Here is our strategic modeling based on the requested topic:
-
-- **Grid Stability**: Retaining optimal load balance across high density districts is recommended.
-- **Resource Re-routing**: Dynamic power routing to EV Hub B is highly optimal to prevent solar leakage.
-- **Advisory Bulletin**: Consider drafting a resident warning regarding maintenance on Oak & 5th Avenue block.`,
+          content: fallbackReply,
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         };
         setChatHistory(prev => [...prev, assistantMsg]);
