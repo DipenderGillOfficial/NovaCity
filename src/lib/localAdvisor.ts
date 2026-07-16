@@ -7,7 +7,89 @@ export function getLocalAdvisorResponse(
 ): string {
   const lowerMessage = message.toLowerCase();
 
-  // 1. Creators / Developers
+  // Helper variables for combined logic
+  const containsWater = lowerMessage.includes("water") || lowerMessage.includes("leak") || lowerMessage.includes("pipe") || lowerMessage.includes("burst") || lowerMessage.includes("sewage") || lowerMessage.includes("hydro") || lowerMessage.includes("main");
+  const containsPower = lowerMessage.includes("power") || lowerMessage.includes("electricity") || lowerMessage.includes("blackout") || lowerMessage.includes("outage") || lowerMessage.includes("grid") || lowerMessage.includes("load") || lowerMessage.includes("energy") || lowerMessage.includes("solar");
+  const containsAdvisory = lowerMessage.includes("advisory") || lowerMessage.includes("draft") || lowerMessage.includes("notice") || lowerMessage.includes("announcement") || lowerMessage.includes("warning") || lowerMessage.includes("alert") || lowerMessage.includes("write") || lowerMessage.includes("create") || lowerMessage.includes("publish");
+
+  // 1. Specific case: Advisory / Draft for Water Main Leakage / Pipe Burst
+  if (containsAdvisory && containsWater) {
+    return `### 📢 OFFICIAL PUBLIC ADVISORY: WATER MAIN SERVICE DISRUPTION (DRAFT)
+
+**To:** Residents, Businesses, and Municipal Personnel of District 3 (Oakwood Corridor)  
+**Status:** EMERGENCY ADVISORY  
+**Issued by:** NovaCity Municipal Water Authority & Central AI Diagnostics Core  
+
+---
+
+#### 🚨 Incident Summary
+A sudden pressure spike (calculated at \`+24%\` above safety tolerance) has caused a **major water main fracture** along the **Oak Street and 5th Avenue intersection**. 
+
+#### 🚧 Corrective Actions In Progress
+1. **Dynamic Shutoff Valves Activated**: High-pressure isolation valves have been remotely triggered to bypass District 3, reducing immediate water loss from 120 Liters/sec to less than 15 Liters/sec.
+2. **Emergency Crews Dispatched**: Heavy utility automated drones and emergency engineering crews have arrived on site to begin structural trenching.
+3. **Traffic Diversion**: Local traffic has been redirected away from the Oakwood Corridor due to minor street flooding.
+
+#### 📋 Resident Guidance
+* **Boil Water Mandate**: Active for immediate residents of District 3 until water clarity index readings return to nominal safe margins.
+* **Temporary Pressure Reduction**: Nearby sectors may experience minor pressure drops for the next **3 to 4 hours** while welding repairs are finalized and certified.
+* **Emergency Supply**: Portable fresh-water tankers have been stationed at the **District 3 Civic Plaza** for immediate public use.
+
+*Prepared dynamically by NovaCity AI Core based on active pressure monitoring and grid telemetry.*`;
+  }
+
+  // 2. Specific case: Advisory / Draft for Power Outage / Grid Load
+  if (containsAdvisory && containsPower) {
+    return `### 📢 OFFICIAL PUBLIC ADVISORY: REGIONAL POWER GRID SHAVING (DRAFT)
+
+**To:** Residents, Commercial Retailers, and Smart Hubs in District 5 & 7  
+**Status:** CAUTIONARY SYSTEM REGULATION  
+**Issued by:** NovaCity Energy Management & Central AI Load Balancer  
+
+---
+
+#### ⚡ Incident Summary
+Extreme ambient cooling demands have pushed regional power consumption to a peak grid threshold of \`${result.gridLoadImpact || "82% Capacity"}\`. To prevent thermal damage to central substation transformers, the system is entering an active load-shaving cycle.
+
+#### 🔋 Active Mitigation & Grid Re-balancing
+1. **Albedo Deflection Active**: NovaCity's active Cool Albedo coatings are reflecting solar heat away, saving approximately \`+4.2%\` auxiliary grid cooling load.
+2. **EV Hub Power Throttle**: Smart vehicle charging portals in Sector B have been dynamically adjusted to standard flow rate (non-rapid) to safeguard reserve capacitors.
+3. **Substation Off-Load**: Stored energy in regional lithium-ion micro-arrays is now actively routing back into high-demand apartment towers.
+
+#### 📋 Guidance for Smart Nodes & Households
+* **De-congest Peak Demand**: Please defer heavy-load appliances (washing machines, pool filters, dry cycles) until after **19:00 Local Time**.
+* **Smart HVAC Offset**: Minor, remote 1.5°C thermostat increments are being applied to state-owned office buildings to conserve regional power.
+
+*Prepared dynamically by NovaCity AI Core based on live regional electrical loads and battery array statuses.*`;
+  }
+
+  // 3. Generic Advisory / Draft
+  if (containsAdvisory) {
+    return `### 📢 MUNICIPAL PUBLIC ADVISORY DRAFT
+
+**Subject:** General Operational Update & Civic Alignment  
+**Target Audience:** Registered NovaCity Smart Citizens  
+**Issued by:** Central AI Core & Municipal Command  
+
+---
+
+#### 📡 System Status Briefing
+In accordance with your active urban planning parameters, NovaCity is currently maintaining **optimal performance metrics**:
+* **Green Canopy Density**: \`${params.greenSpaceRatio}%\` — currently providing clean air and localized ambient temperature cooling.
+* **Autonomous Transit Frequency**: Running at a \`${params.publicTransitFrequency} minute\` dispatch interval, successfully keeping traffic congestion delays minimized by approximately \`${result.trafficImpact || "-12.5%"}\`.
+* **Vertical Height Ceiling**: Confirmed and enforced at a max of \`${params.buildingHeightLimits} meters\`.
+
+#### 🚧 Active Planning Projects
+* **Smart Grid Calibration**: Active load monitoring is keeping power grid capacity safe at \`${result.gridLoadImpact || "78% Capacity"}\`.
+* **Eco-Roof Compliance**: System is reviewing building footprints to expand green zones.
+
+#### 📋 Citizen Action Required
+Please ensure your smart home nodes are configured to sync daily. If you encounter any local utility or road maintenance issues, report them immediately through the **NovaCity Reporting Hub**.
+
+*Created by NovaCity Client-Side NLP Engine (Offline Fallback).*`;
+  }
+
+  // 4. Creators / Developers
   const isAskingAboutCreators = 
     (lowerMessage.includes("who") && (lowerMessage.includes("made") || lowerMessage.includes("built") || lowerMessage.includes("created") || lowerMessage.includes("developed") || lowerMessage.includes("design"))) ||
     lowerMessage.includes("creator") || 
@@ -33,7 +115,7 @@ This state-of-the-art NovaCity Smart City OS digital twin was designed and engin
    * **Responsibilities**: Drafting detailed technical specifications, project structure diagrams, and delivering the high-impact PowerPoint presentation (PPT).`;
   }
 
-  // 2. API Limits, Reset Times & Quota
+  // 5. API Limits, Reset Times & Quota
   const isAskingAboutLimits = 
     lowerMessage.includes("limit") || 
     lowerMessage.includes("reset") || 
@@ -55,7 +137,7 @@ As the central NovaCity AI Core, here is the official diagnostic status regardin
 * **System Resilience**: If you encounter a 429 quota error, our **NovaCity Dynamic Local Fallback Engine** immediately takes over. It simulates realistic, context-aware smart city responses, ensuring zero interruption to your simulation metrics and dashboard panels!`;
   }
 
-  // 3. PUBG / BGMI Ban Inquiries
+  // 6. PUBG / BGMI Ban Inquiries
   const isAskingAboutPubg = 
     lowerMessage.includes("pubg") || 
     lowerMessage.includes("bgmi") || 
@@ -70,7 +152,19 @@ While my central processing cores are primarily designed for optimizing smart-gr
 * **NovaCity Digital Twin Simulation**: In our sustainable urban plan for 2030, high-bandwidth gaming lines are allocated dynamically. Localized digital recreation zones in District 7 are equipped with solar-powered, low-latency micro-servers. This supports competitive esports hubs without compromising emergency communication or energy grids!`;
   }
 
-  // 4. Greetings
+  // 7. Water / Leakage / Pipe / Utility specific questions (without advisory)
+  if (containsWater) {
+    return `### 🚰 Water Distribution & Hydro-Pressure Telemetry
+You queried our hydro-utility distribution layer. Here is the active diagnostic analysis:
+
+* **Flow Integrity Index**: \`98.4%\` nominal pipe lining throughput across major grids.
+* **Average Delivery Pressure**: \`4.1 bar\` (within optimal safety margins of 3.5 - 4.5 bar).
+* **Automated Safety Shield**: NovaCity's active seismic flow meters measure microscopic ground tremors and anomalous friction noises along primary pipe walls to spot and isolate micro-leakages before a physical crack ruptures.
+* **Actionable Insight**: 
+  - To generate a complete public notice for municipal channels regarding this topic, type: **"Draft a public advisory for main leakage"** in the chat console!`;
+  }
+
+  // 8. Greetings
   const isGreeting = 
     lowerMessage.startsWith("hi") || 
     lowerMessage.startsWith("hello") || 
@@ -94,7 +188,7 @@ All diagnostic telemetry channels are stable. How can I assist you with city pla
   - Grid Load: \`${result.gridLoadImpact || "78% Capacity"}\``;
   }
 
-  // 5. Parameter & Metric Queries
+  // 9. Green Space
   if (lowerMessage.includes("green") || lowerMessage.includes("park") || lowerMessage.includes("tree") || lowerMessage.includes("forest")) {
     const healthStatus = params.greenSpaceRatio > 50 ? "Superb" : params.greenSpaceRatio > 25 ? "Optimal" : "Critical Under-allocation";
     return `### 🌿 Green Space & Canopy Diagnosis
@@ -110,6 +204,7 @@ You queried our urban green canopy allocation. Here are the micro-analytics:
     : "✅ Your current green layout is extremely resilient. Keep focusing on bioswale integration near heavy concrete corridors."}`;
   }
 
+  // 10. Transit / Traffic
   if (lowerMessage.includes("transit") || lowerMessage.includes("bus") || lowerMessage.includes("metro") || lowerMessage.includes("frequency") || lowerMessage.includes("traffic")) {
     const transitStatus = params.publicTransitFrequency < 6 ? "High Efficiency" : params.publicTransitFrequency < 12 ? "Moderate Flow" : "Underperforming Corridor Delay";
     return `### 🚇 Transit Corridors & Commute Diagnostics
@@ -123,6 +218,7 @@ Your request for high-frequency public corridors has been simulated:
     : "✅ Sub-6 minute dispatch rates maintain outstanding passenger fluid dynamics and keep commuter line stress below critical thresholds."}`;
   }
 
+  // 11. Height / Buildings
   if (lowerMessage.includes("height") || lowerMessage.includes("building") || lowerMessage.includes("skyline") || lowerMessage.includes("skyscraper")) {
     return `### 🏢 Zoning Limits & Vertical Construction Limits
 The current zoning code has been parsed relative to structural albedo coatings:
@@ -135,6 +231,7 @@ The current zoning code has been parsed relative to structural albedo coatings:
   - Albedo coatings are essential at your current heights to keep building envelopes from overloading regional chiller loops.`;
   }
 
+  // 12. Grid / Power / Energy
   if (lowerMessage.includes("load") || lowerMessage.includes("grid") || lowerMessage.includes("electricity") || lowerMessage.includes("power") || lowerMessage.includes("solar") || lowerMessage.includes("energy")) {
     return `### ⚡ Regional Power Grid & Renewable Load Balancer
 A diagnostic trace has been completed for all electrical junctions:
@@ -146,6 +243,7 @@ A diagnostic trace has been completed for all electrical junctions:
   - Primary solar cells are routing excess charge into EV Hub B to prevent grid saturation during peak irradiance hours.`;
   }
 
+  // 13. Carbon / CO2
   if (lowerMessage.includes("co2") || lowerMessage.includes("carbon") || lowerMessage.includes("reduction") || lowerMessage.includes("environment")) {
     return `### 🌍 Carbon Footprint & Environmental Index
 Our mathematical simulation model has updated the environmental indicators:
@@ -157,6 +255,7 @@ Our mathematical simulation model has updated the environmental indicators:
   - Continue implementing eco-roof mandates to push CO2 reductions past the **-45%** milestone.`;
   }
 
+  // 14. Cost / ROI
   if (lowerMessage.includes("roi") || lowerMessage.includes("financial") || lowerMessage.includes("cost") || lowerMessage.includes("money") || lowerMessage.includes("investment")) {
     return `### 📊 Capital Investment & ROI Forecast
 Financial models have completed multi-variable amortization calculations:
