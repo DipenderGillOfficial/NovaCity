@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-primary: #6366f1;
+  --color-primary-container: rgba(99, 102, 241, 0.15);
+  --color-on-primary-container: #e0e7ff;
+  --color-tertiary: #ec4899;
+  --color-tertiary-container: rgba(236, 72, 153, 0.15);
+  --color-on-tertiary-container: #fce7f3;
+  --color-background: #020617;
+  --color-on-background: #f8fafc;
+  --color-surface: rgba(255, 255, 255, 0.03);
+  --color-surface-dim: rgba(255, 255, 255, 0.01);
+  --color-surface-bright: rgba(255, 255, 255, 0.06);
+  --color-surface-container-lowest: rgba(255, 255, 255, 0.01);
+  --color-surface-container-low: rgba(255, 255, 255, 0.02);
+  --color-surface-container: rgba(255, 255, 255, 0.03);
+  --color-surface-container-high: rgba(255, 255, 255, 0.05);
+  --color-surface-container-highest: rgba(255, 255, 255, 0.08);
+  --color-on-surface: #f8fafc;
+  --color-on-surface-variant: #94a3b8;
+  --color-outline: rgba(255, 255, 255, 0.1);
+  --color-outline-variant: rgba(255, 255, 255, 0.05);
+  --color-error: #ef4444;
+  --color-error-container: rgba(239, 68, 68, 0.15);
+}
+
+/* Material Symbols Outlined settings */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-size: 24px;
+}
+
+.material-symbols-filled {
+  font-family: 'Material Symbols Outlined';
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Background mesh & glows for Frosted Glass Theme */
+.mesh-gradient {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: radial-gradient(circle at 0% 0%, #1e1b4b 0%, transparent 50%),
+              radial-gradient(circle at 100% 100%, #312e81 0%, transparent 50%),
+              radial-gradient(circle at 50% 50%, #0f172a 0%, transparent 100%);
+  background-color: #020617;
+}
+
+.glow-1 {
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  background: #6366f1;
+  filter: blur(120px);
+  opacity: 0.15;
+  top: -100px;
+  right: 10%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.glow-2 {
+  position: fixed;
+  width: 350px;
+  height: 350px;
+  background: #ec4899;
+  filter: blur(100px);
+  opacity: 0.1;
+  bottom: -50px;
+  left: 5%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Glass panel style */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.92) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.glass-card {
+  background: rgba(15, 23, 42, 0.92) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+}
+
+/* Pulse animation for active node status */
+.pulse-dot {
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+/* Subtle dash animation for SVG lines */
+.chart-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: dash 3s ease-in-out forwards;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Webkit Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #bbcabf;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #006c49;
+}
+

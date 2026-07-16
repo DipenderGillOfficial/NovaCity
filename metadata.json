@@ -1,0 +1,6 @@
+{
+  "name": "NovaCity",
+  "description": "Smart City OS - Next-generation digital twin, real-time spatial analysis, and resource optimization platform.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

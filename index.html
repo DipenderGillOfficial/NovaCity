@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NovaCity | Smart City OS</title>
+    <!-- Cookie & Session-based automatic single-refresh on open with foolproof loop prevention -->
+    <script>
+      (function() {
+        // 1. URL-based safeguard to absolutely prevent infinite loop even if storage is totally blocked
+        if (window.location.search.indexOf('refreshed=1') !== -1 || window.location.hash === '#refreshed') {
+          return;
+        }
+
+        try {
+          var key = 'novacity_refreshed';
+          if (sessionStorage.getItem(key)) {
+            return;
+          }
+          sessionStorage.setItem(key, 'true');
+          // Reload page with a query parameter as a safety guard
+          var sep = window.location.search ? '&' : '?';
+          window.location.replace(window.location.pathname + window.location.search + sep + 'refreshed=1');
+        } catch (e) {
+          // 2. Fallback to cookie check if sessionStorage is blocked
+          var cookies = document.cookie.split('; ');
+          var hasRefreshed = false;
+          for (var i = 0; i < cookies.length; i++) {
+            if (cookies[i].indexOf('novacity_refreshed=') === 0) {
+              hasRefreshed = true;
+              break;
+            }
+          }
+          if (!hasRefreshed) {
+            document.cookie = "novacity_refreshed=true; path=/; SameSite=Lax";
+            
+            // Verify if cookie write was successful to prevent infinite loop on blocked cookies
+            var checkCookies = document.cookie.split('; ');
+            var verified = false;
+            for (var j = 0; j < checkCookies.length; j++) {
+              if (checkCookies[j].indexOf('novacity_refreshed=') === 0) {
+                verified = true;
+                break;
+              }
+            }
+            if (verified) {
+              window.location.reload();
+            } else {
+              // 3. Last-mile fallback: If all storage is blocked, append a query param to do a safe one-time refresh
+              var sep = window.location.search ? '&' : '?';
+              window.location.replace(window.location.pathname + window.location.search + sep + 'refreshed=1');
+            }
+          }
+        }
+      })();
+    </script>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Material Symbols for beautiful icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  </head>
+  <body class="bg-[#020617] text-white font-sans selection:bg-indigo-500/20 selection:text-white relative min-h-screen">
+    <div class="mesh-gradient"></div>
+    <div class="glow-1"></div>
+    <div class="glow-2"></div>
+    <div id="root" class="relative z-10"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
