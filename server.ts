@@ -184,6 +184,11 @@ Members & Roles:
 2. Shreya - Study Material(Content), Database 
 3. Prakhar - Documentation, PPT, Project File
 
+CRITICAL REQUIREMENT - HANDLING UNRELATED TOPICS:
+If the user asks any question that is NOT related to NovaCity, this website, its developers/creators, its simulation parameters, its urban metrics, or its smart city features, you MUST respond with a variation of:
+"No, I am sorry, but I do not know about this topic. As the NovaCity central AI Core, I only have access to information regarding this website, the NovaCity Smart City OS digital twin, our developers, and local urban simulation parameters."
+Do NOT answer general knowledge, programming, history, cooking, sports, humor, or other unrelated questions. For any question not based on the site, say no and say you do not know about it. For all questions based on the site, you must answer completely, intelligently, and accurately.
+
 Be professional, objective, highly analytical, and concise. Use realistic data and terminology like "District 4 Water Grid", "EV Hub B rerouting", "Adaptive LED mesh network". Keep formatting clean and highly scannable using brief markdown bullet points. Do not mention that you are a language model or refer to system bounds. Speak as a direct live API interface of NovaCity OS.`;
 
     if (alerts && Array.isArray(alerts)) {
@@ -252,9 +257,85 @@ Be professional, objective, highly analytical, and concise. Use realistic data a
     
     // Parse context and formulate a highly detailed, personalized, professional mock response
     const msgLower = message.toLowerCase();
+    
+    // Determine if the query is related to the site, its creators, or its features
+    const isSiteRelated = 
+      // Greetings & identity & help
+      msgLower.includes("hi") || msgLower.includes("hello") || msgLower.includes("hey") || 
+      msgLower.includes("greetings") || msgLower.includes("morning") || msgLower.includes("afternoon") ||
+      msgLower.includes("help") || msgLower.includes("guide") || msgLower.includes("how to use") || 
+      msgLower.includes("capabilities") || msgLower.includes("what can you do") || msgLower.includes("who are you") ||
+      msgLower.includes("what is this") || msgLower.includes("about this") || msgLower.includes("site") ||
+      msgLower.includes("website") || msgLower.includes("platform") || msgLower.includes("app") ||
+      msgLower.includes("novacity") || msgLower.includes("nova city") ||
+      msgLower.includes("system") || msgLower.includes("operational") || msgLower.includes("status") ||
+      msgLower.includes("map") || msgLower.includes("3d") || msgLower.includes("view") || msgLower.includes("panel") ||
+      
+      // Creators / Developers
+      msgLower.includes("creator") || msgLower.includes("developer") || msgLower.includes("team") ||
+      msgLower.includes("member") || msgLower.includes("author") || msgLower.includes("built") ||
+      msgLower.includes("made") || msgLower.includes("created") || msgLower.includes("designed") ||
+      msgLower.includes("who is behind") || msgLower.includes("dipender") || msgLower.includes("divyam") ||
+      msgLower.includes("shreya") || msgLower.includes("prakhar") ||
+      
+      // Core parameters, sliders, simulation & planning
+      msgLower.includes("green") || msgLower.includes("park") || msgLower.includes("tree") ||
+      msgLower.includes("forest") || msgLower.includes("canopy") || msgLower.includes("space") ||
+      msgLower.includes("transit") || msgLower.includes("traffic") || msgLower.includes("bus") ||
+      msgLower.includes("metro") || msgLower.includes("rail") || msgLower.includes("train") ||
+      msgLower.includes("shuttle") || msgLower.includes("commute") || msgLower.includes("frequency") ||
+      msgLower.includes("interval") || msgLower.includes("congest") || msgLower.includes("delay") ||
+      msgLower.includes("building") || msgLower.includes("height") || msgLower.includes("ceiling") ||
+      msgLower.includes("limit") || msgLower.includes("skyline") || msgLower.includes("skyscraper") ||
+      msgLower.includes("architecture") || msgLower.includes("zoning") ||
+      msgLower.includes("albedo") || msgLower.includes("coating") || msgLower.includes("reflect") ||
+      msgLower.includes("cool asphalt") || msgLower.includes("surfacing") || msgLower.includes("roof") ||
+      msgLower.includes("sustainable") || msgLower.includes("sustainability") || msgLower.includes("urban") ||
+      msgLower.includes("city") || msgLower.includes("digital twin") || msgLower.includes("simulation") ||
+      msgLower.includes("parameter") || msgLower.includes("temp") || msgLower.includes("temperature") ||
+      msgLower.includes("weather") || msgLower.includes("forecast") || msgLower.includes("diagnostic") ||
+      msgLower.includes("telemetry") ||
+      
+      // Simulation metrics & outcomes
+      msgLower.includes("co2") || msgLower.includes("carbon") || msgLower.includes("reduction") ||
+      msgLower.includes("emissions") || msgLower.includes("environment") || msgLower.includes("pollution") ||
+      msgLower.includes("roi") || msgLower.includes("cost") || msgLower.includes("money") ||
+      msgLower.includes("financial") || msgLower.includes("budget") || msgLower.includes("investment") ||
+      msgLower.includes("payback") || msgLower.includes("return") ||
+      msgLower.includes("grid") || msgLower.includes("electricity") || msgLower.includes("power") ||
+      msgLower.includes("energy") || msgLower.includes("battery") || msgLower.includes("solar") ||
+      msgLower.includes("wind") || msgLower.includes("substation") || msgLower.includes("generator") ||
+      msgLower.includes("load") || msgLower.includes("capacity") ||
+      
+      // Incidents, reports, policies
+      msgLower.includes("water") || msgLower.includes("leak") || msgLower.includes("pipe") ||
+      msgLower.includes("burst") || msgLower.includes("main") || msgLower.includes("hydro") ||
+      msgLower.includes("sewage") || msgLower.includes("drain") || msgLower.includes("flood") ||
+      msgLower.includes("runoff") || msgLower.includes("bioswale") ||
+      msgLower.includes("alert") || msgLower.includes("incident") || msgLower.includes("report") ||
+      msgLower.includes("hub") || msgLower.includes("complaint") || msgLower.includes("pothole") ||
+      msgLower.includes("safety") || msgLower.includes("emergency") || msgLower.includes("seismic") ||
+      msgLower.includes("advisory") || msgLower.includes("draft") || msgLower.includes("notice") ||
+      msgLower.includes("warning") || msgLower.includes("announcement") || msgLower.includes("bulletin") ||
+      msgLower.includes("policy") || msgLower.includes("policies") || msgLower.includes("shaving") ||
+      msgLower.includes("mandate") || msgLower.includes("arterial") || msgLower.includes("shaping") ||
+      
+      // Miscellaneous pre-coded topics
+      msgLower.includes("pubg") || msgLower.includes("bgmi") || msgLower.includes("ban") ||
+      msgLower.includes("quota") || msgLower.includes("429") || msgLower.includes("limit") ||
+      msgLower.includes("rate");
+
     let dynamicReply = "";
     
-    if (msgLower.includes("water") || msgLower.includes("leak") || msgLower.includes("pipe") || msgLower.includes("burst")) {
+    if (!isSiteRelated) {
+      dynamicReply = `No, I am sorry, but I do not know about this topic. As the NovaCity central AI Core, I can only answer questions and assist you with topics directly related to this website, its creators, its simulation parameters, and its smart city OS features.
+
+Please ask me a question related to our smart city systems, such as:
+* **Creators & Team**: "Who built this website?" or "Who is Dipender/Divyam/Shreya/Prakhar?"
+* **Zoning Sliders & Parameters**: "What is our current Green Space Ratio?" or "Explain the public transit frequency limits"
+* **Real-time Simulation Outcomes**: "Show me our estimated ROI" or "How is CO2 reduction calculated?"
+* **Civic Alerts & Advisories**: "Draft a public advisory for main leakage" or "Tell me about water main burst reports"`;
+    } else if (msgLower.includes("water") || msgLower.includes("leak") || msgLower.includes("pipe") || msgLower.includes("burst")) {
       dynamicReply = `### District 4 Water Grid Incident Analysis
 In response to your query regarding the water main infrastructure in District 4, here is our localized strategic modeling:
 

@@ -7,6 +7,83 @@ export function getLocalAdvisorResponse(
 ): string {
   const lowerMessage = message.toLowerCase();
 
+  // Determine if the query is related to the site, its creators, or its features
+  const isSiteRelated = 
+    // Greetings & identity & help
+    lowerMessage.includes("hi") || lowerMessage.includes("hello") || lowerMessage.includes("hey") || 
+    lowerMessage.includes("greetings") || lowerMessage.includes("morning") || lowerMessage.includes("afternoon") ||
+    lowerMessage.includes("help") || lowerMessage.includes("guide") || lowerMessage.includes("how to use") || 
+    lowerMessage.includes("capabilities") || lowerMessage.includes("what can you do") || lowerMessage.includes("who are you") ||
+    lowerMessage.includes("what is this") || lowerMessage.includes("about this") || lowerMessage.includes("site") ||
+    lowerMessage.includes("website") || lowerMessage.includes("platform") || lowerMessage.includes("app") ||
+    lowerMessage.includes("novacity") || lowerMessage.includes("nova city") ||
+    lowerMessage.includes("system") || lowerMessage.includes("operational") || lowerMessage.includes("status") ||
+    lowerMessage.includes("map") || lowerMessage.includes("3d") || lowerMessage.includes("view") || lowerMessage.includes("panel") ||
+    
+    // Creators / Developers
+    lowerMessage.includes("creator") || lowerMessage.includes("developer") || lowerMessage.includes("team") ||
+    lowerMessage.includes("member") || lowerMessage.includes("author") || lowerMessage.includes("built") ||
+    lowerMessage.includes("made") || lowerMessage.includes("created") || lowerMessage.includes("designed") ||
+    lowerMessage.includes("who is behind") || lowerMessage.includes("dipender") || lowerMessage.includes("divyam") ||
+    lowerMessage.includes("shreya") || lowerMessage.includes("prakhar") ||
+    
+    // Core parameters, sliders, simulation & planning
+    lowerMessage.includes("green") || lowerMessage.includes("park") || lowerMessage.includes("tree") ||
+    lowerMessage.includes("forest") || lowerMessage.includes("canopy") || lowerMessage.includes("space") ||
+    lowerMessage.includes("transit") || lowerMessage.includes("traffic") || lowerMessage.includes("bus") ||
+    lowerMessage.includes("metro") || lowerMessage.includes("rail") || lowerMessage.includes("train") ||
+    lowerMessage.includes("shuttle") || lowerMessage.includes("commute") || lowerMessage.includes("frequency") ||
+    lowerMessage.includes("interval") || lowerMessage.includes("congest") || lowerMessage.includes("delay") ||
+    lowerMessage.includes("building") || lowerMessage.includes("height") || lowerMessage.includes("ceiling") ||
+    lowerMessage.includes("limit") || lowerMessage.includes("skyline") || lowerMessage.includes("skyscraper") ||
+    lowerMessage.includes("architecture") || lowerMessage.includes("zoning") ||
+    lowerMessage.includes("albedo") || lowerMessage.includes("coating") || lowerMessage.includes("reflect") ||
+    lowerMessage.includes("cool asphalt") || lowerMessage.includes("surfacing") || lowerMessage.includes("roof") ||
+    lowerMessage.includes("sustainable") || lowerMessage.includes("sustainability") || lowerMessage.includes("urban") ||
+    lowerMessage.includes("city") || lowerMessage.includes("digital twin") || lowerMessage.includes("simulation") ||
+    lowerMessage.includes("parameter") || lowerMessage.includes("temp") || lowerMessage.includes("temperature") ||
+    lowerMessage.includes("weather") || lowerMessage.includes("forecast") || lowerMessage.includes("diagnostic") ||
+    lowerMessage.includes("telemetry") ||
+    
+    // Simulation metrics & outcomes
+    lowerMessage.includes("co2") || lowerMessage.includes("carbon") || lowerMessage.includes("reduction") ||
+    lowerMessage.includes("emissions") || lowerMessage.includes("environment") || lowerMessage.includes("pollution") ||
+    lowerMessage.includes("roi") || lowerMessage.includes("cost") || lowerMessage.includes("money") ||
+    lowerMessage.includes("financial") || lowerMessage.includes("budget") || lowerMessage.includes("investment") ||
+    lowerMessage.includes("payback") || lowerMessage.includes("return") ||
+    lowerMessage.includes("grid") || lowerMessage.includes("electricity") || lowerMessage.includes("power") ||
+    lowerMessage.includes("energy") || lowerMessage.includes("battery") || lowerMessage.includes("solar") ||
+    lowerMessage.includes("wind") || lowerMessage.includes("substation") || lowerMessage.includes("generator") ||
+    lowerMessage.includes("load") || lowerMessage.includes("capacity") ||
+    
+    // Incidents, reports, policies
+    lowerMessage.includes("water") || lowerMessage.includes("leak") || lowerMessage.includes("pipe") ||
+    lowerMessage.includes("burst") || lowerMessage.includes("main") || lowerMessage.includes("hydro") ||
+    lowerMessage.includes("sewage") || lowerMessage.includes("drain") || lowerMessage.includes("flood") ||
+    lowerMessage.includes("runoff") || lowerMessage.includes("bioswale") ||
+    lowerMessage.includes("alert") || lowerMessage.includes("incident") || lowerMessage.includes("report") ||
+    lowerMessage.includes("hub") || lowerMessage.includes("complaint") || lowerMessage.includes("pothole") ||
+    lowerMessage.includes("safety") || lowerMessage.includes("emergency") || lowerMessage.includes("seismic") ||
+    lowerMessage.includes("advisory") || lowerMessage.includes("draft") || lowerMessage.includes("notice") ||
+    lowerMessage.includes("warning") || lowerMessage.includes("announcement") || lowerMessage.includes("bulletin") ||
+    lowerMessage.includes("policy") || lowerMessage.includes("policies") || lowerMessage.includes("shaving") ||
+    lowerMessage.includes("mandate") || lowerMessage.includes("arterial") || lowerMessage.includes("shaping") ||
+    
+    // Miscellaneous pre-coded topics
+    lowerMessage.includes("pubg") || lowerMessage.includes("bgmi") || lowerMessage.includes("ban") ||
+    lowerMessage.includes("quota") || lowerMessage.includes("429") || lowerMessage.includes("limit") ||
+    lowerMessage.includes("rate");
+
+  if (!isSiteRelated) {
+    return `No, I am sorry, but I do not know about this topic. As the NovaCity central AI Core, I can only answer questions and assist you with topics directly related to this website, its creators, its simulation parameters, and its smart city OS features.
+
+Please ask me a question related to our smart city systems, such as:
+* **Creators & Team**: "Who built this website?" or "Who is Dipender/Divyam/Shreya/Prakhar?"
+* **Zoning Sliders & Parameters**: "What is our current Green Space Ratio?" or "Explain the public transit frequency limits"
+* **Real-time Simulation Outcomes**: "Show me our estimated ROI" or "How is CO2 reduction calculated?"
+* **Civic Alerts & Advisories**: "Draft a public advisory for main leakage" or "Tell me about water main burst reports"`;
+  }
+
   // Helper variables for combined logic
   const containsWater = lowerMessage.includes("water") || lowerMessage.includes("leak") || lowerMessage.includes("pipe") || lowerMessage.includes("burst") || lowerMessage.includes("sewage") || lowerMessage.includes("hydro") || lowerMessage.includes("main");
   const containsPower = lowerMessage.includes("power") || lowerMessage.includes("electricity") || lowerMessage.includes("blackout") || lowerMessage.includes("outage") || lowerMessage.includes("grid") || lowerMessage.includes("load") || lowerMessage.includes("energy") || lowerMessage.includes("solar");
