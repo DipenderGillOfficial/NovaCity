@@ -37,15 +37,10 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: |
-          if [ -f package-lock.json ]; then
-            npm ci
-          else
-            npm install
-          fi
+        run: npm install --legacy-peer-deps
 
       - name: Build Vite Application
-        run: npm run build
+        run: npm run build:client
         env:
           # Keep client-side builds static
           NODE_ENV: production
