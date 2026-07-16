@@ -46,10 +46,11 @@ async function generateContentWithRetry(params: { model: string; contents: any; 
       try {
         console.log(`Sending prompt to ${modelName} (Attempt ${attempt}/${retries})...`);
         const response = await ai.models.generateContent({
+          model: modelName,
+          contents: params.contents,
           config: {
             systemInstruction: "You are the official and intelligent Smart City AI Assistant for NovaCity. Your primary goal is to provide only real, accurate, and truthful information about NovaCity. If you do not know the real-time or verified answer to a specific question, do not hallucinate or make things up. Instead, reply politely: 'I am sorry, I do not have verified real-time information about this yet.' Here is the authentic data and facts about NovaCity that you must strictly follow: 1. NovaCity is a modern, sustainable, and technologically advanced smart city project. 2. It features 24/7 automated traffic management, intelligent waste sorting, and a green energy grid."
-          },
-          model: modelName,
+          }
         });
         return response;
       } catch (err: any) {
