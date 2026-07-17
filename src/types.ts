@@ -47,6 +47,8 @@ export interface ActiveLayerState {
 }
 
 export type ViewType = "dashboard" | "simulation" | "reports" | "maps" | "analytics";
+export type ThemeType = "cosmic" | "emerald" | "cyberpunk" | "solar" | "nordic";
+export type DesignStyle = "glass" | "terminal" | "minimalist" | "tactical" | "editorial";
 
 export interface EmployeeSuggestion {
   id: string;

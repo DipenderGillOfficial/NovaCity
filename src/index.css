@@ -1,16 +1,86 @@
+:root, .theme-cosmic {
+  --theme-primary-400: #818cf8;
+  --theme-primary-500: #6366f1;
+  --theme-secondary-400: #f472b6;
+  --theme-bg-950: #020617;
+  --theme-panel-bg: rgba(15, 23, 42, 0.92);
+  --theme-border: rgba(255, 255, 255, 0.08);
+  --theme-glow-1: #1e1b4b;
+  --theme-glow-2: #312e81;
+  --theme-glow-color-1: #6366f1;
+  --theme-glow-color-2: #ec4899;
+}
+
+.theme-emerald {
+  --theme-primary-400: #34d399;
+  --theme-primary-500: #10b981;
+  --theme-secondary-400: #22d3ee;
+  --theme-bg-950: #022c22;
+  --theme-panel-bg: rgba(2, 44, 34, 0.94);
+  --theme-border: rgba(52, 211, 153, 0.15);
+  --theme-glow-1: #064e3b;
+  --theme-glow-2: #115e59;
+  --theme-glow-color-1: #10b981;
+  --theme-glow-color-2: #22d3ee;
+}
+
+.theme-cyberpunk {
+  --theme-primary-400: #f43f5e;
+  --theme-primary-500: #e11d48;
+  --theme-secondary-400: #facc15;
+  --theme-bg-950: #0d021c;
+  --theme-panel-bg: rgba(20, 4, 36, 0.94);
+  --theme-border: rgba(244, 63, 94, 0.2);
+  --theme-glow-1: #3b0764;
+  --theme-glow-2: #500724;
+  --theme-glow-color-1: #f43f5e;
+  --theme-glow-color-2: #facc15;
+}
+
+.theme-solar {
+  --theme-primary-400: #fbbf24;
+  --theme-primary-500: #d97706;
+  --theme-secondary-400: #f97316;
+  --theme-bg-950: #1c1917;
+  --theme-panel-bg: rgba(41, 37, 36, 0.94);
+  --theme-border: rgba(245, 158, 11, 0.15);
+  --theme-glow-1: #451a03;
+  --theme-glow-2: #3f1d0b;
+  --theme-glow-color-1: #f59e0b;
+  --theme-glow-color-2: #f97316;
+}
+
+.theme-nordic {
+  --theme-primary-400: #38bdf8;
+  --theme-primary-500: #0ea5e9;
+  --theme-secondary-400: #2dd4bf;
+  --theme-bg-950: #0b1329;
+  --theme-panel-bg: rgba(11, 19, 41, 0.94);
+  --theme-border: rgba(56, 189, 248, 0.15);
+  --theme-glow-1: #1e3a8a;
+  --theme-glow-2: #115e59;
+  --theme-glow-color-1: #0ea5e9;
+  --theme-glow-color-2: #2dd4bf;
+}
+
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-sans: var(--current-font-sans, "Inter", ui-sans-serif, system-ui, sans-serif);
+  --font-mono: var(--current-font-mono, "JetBrains Mono", ui-monospace, SFMono-Regular, monospace);
   
-  --color-primary: #6366f1;
+  --color-primary: var(--theme-primary-500);
+  --color-indigo-400: var(--theme-primary-400);
+  --color-indigo-500: var(--theme-primary-500);
+  --color-pink-400: var(--theme-secondary-400);
+  --color-slate-950: var(--theme-bg-950);
+  
   --color-primary-container: rgba(99, 102, 241, 0.15);
   --color-on-primary-container: #e0e7ff;
-  --color-tertiary: #ec4899;
+  --color-tertiary: var(--theme-secondary-400);
   --color-tertiary-container: rgba(236, 72, 153, 0.15);
   --color-on-tertiary-container: #fce7f3;
-  --color-background: #020617;
+  --color-background: var(--theme-bg-950);
   --color-on-background: #f8fafc;
   --color-surface: rgba(255, 255, 255, 0.03);
   --color-surface-dim: rgba(255, 255, 255, 0.01);
@@ -47,17 +117,17 @@
   width: 100%;
   height: 100%;
   z-index: -1;
-  background: radial-gradient(circle at 0% 0%, #1e1b4b 0%, transparent 50%),
-              radial-gradient(circle at 100% 100%, #312e81 0%, transparent 50%),
-              radial-gradient(circle at 50% 50%, #0f172a 0%, transparent 100%);
-  background-color: #020617;
+  background: radial-gradient(circle at 0% 0%, var(--theme-glow-1) 0%, transparent 50%),
+              radial-gradient(circle at 100% 100%, var(--theme-glow-2) 0%, transparent 50%),
+              radial-gradient(circle at 50% 50%, var(--theme-bg-950) 0%, transparent 100%);
+  background-color: var(--theme-bg-950);
 }
 
 .glow-1 {
   position: fixed;
   width: 400px;
   height: 400px;
-  background: #6366f1;
+  background: var(--theme-glow-color-1);
   filter: blur(120px);
   opacity: 0.15;
   top: -100px;
@@ -70,7 +140,7 @@
   position: fixed;
   width: 350px;
   height: 350px;
-  background: #ec4899;
+  background: var(--theme-glow-color-2);
   filter: blur(100px);
   opacity: 0.1;
   bottom: -50px;
@@ -81,17 +151,17 @@
 
 /* Glass panel style */
 .glass-panel {
-  background: rgba(15, 23, 42, 0.92) !important;
+  background: var(--theme-panel-bg, rgba(15, 23, 42, 0.92)) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid var(--theme-border, rgba(255, 255, 255, 0.08)) !important;
 }
 
 .glass-card {
-  background: rgba(15, 23, 42, 0.92) !important;
+  background: var(--theme-panel-bg, rgba(15, 23, 42, 0.92)) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid var(--theme-border, rgba(255, 255, 255, 0.1)) !important;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
 }
 
@@ -147,4 +217,157 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #006c49;
 }
+
+/* ==========================================================================
+   DESIGN ARCHITECTURE STYLE OVERRIDES
+   ========================================================================== */
+
+/* 1. GLASSMORPHIC FUTURE (Default) */
+:root, .design-glass {
+  --current-font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --current-font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --theme-radius: 1rem;
+}
+
+/* 2. RETRO CRT TERMINAL */
+.design-terminal {
+  --current-font-sans: "Share Tech Mono", "JetBrains Mono", monospace;
+  --current-font-mono: "Share Tech Mono", "JetBrains Mono", monospace;
+  --theme-radius: 0px !important;
+  --theme-panel-bg: rgba(3, 8, 3, 0.98) !important;
+  --theme-border: 1px dashed var(--theme-primary-400) !important;
+  --theme-shadow: 0 0 15px rgba(0, 0, 0, 0.9) !important;
+  background-color: #010401 !important;
+}
+
+.design-terminal::after {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%),
+              linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  z-index: 99999;
+  background-size: 100% 4px, 6px 100%;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.design-terminal h1, 
+.design-terminal h2, 
+.design-terminal h3, 
+.design-terminal p,
+.design-terminal span,
+.design-terminal button,
+.design-terminal input {
+  text-shadow: 0 0 3px var(--theme-primary-400);
+}
+
+.design-terminal .mesh-gradient {
+  background: radial-gradient(circle at 50% 50%, #030803 0%, #010401 100%) !important;
+  background-color: #010401 !important;
+}
+
+.design-terminal .glow-1, 
+.design-terminal .glow-2 {
+  opacity: 0.08 !important;
+  filter: blur(180px) !important;
+}
+
+.design-terminal .glass-card,
+.design-terminal .glass-panel {
+  box-shadow: 0 0 8px rgba(0, 255, 100, 0.1) !important;
+}
+
+/* 3. PRISM MINIMALIST */
+.design-minimalist {
+  --current-font-sans: "Outfit", "Inter", sans-serif;
+  --current-font-mono: "JetBrains Mono", monospace;
+  --theme-radius: 6px !important;
+  --theme-panel-bg: #090c14 !important;
+  --theme-border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  --theme-shadow: none !important;
+  background-color: #04050a !important;
+}
+
+.design-minimalist .mesh-gradient,
+.design-minimalist .glow-1,
+.design-minimalist .glow-2 {
+  background: none !important;
+  background-color: #04050a !important;
+  display: none !important;
+}
+
+.design-minimalist .glass-card,
+.design-minimalist .glass-panel {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* 4. TACTICAL BLUEPRINT */
+.design-tactical {
+  --current-font-sans: "Space Grotesk", "Inter", sans-serif;
+  --current-font-mono: "JetBrains Mono", monospace;
+  --theme-radius: 3px !important;
+  --theme-panel-bg: rgba(8, 14, 28, 0.96) !important;
+  --theme-border: 1px solid var(--theme-primary-400) !important;
+  --theme-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+  background-color: #050812 !important;
+}
+
+.design-tactical::before {
+  content: " ";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.design-tactical .mesh-gradient {
+  background: radial-gradient(circle at 10% 10%, #0c152a 0%, transparent 60%),
+              radial-gradient(circle at 90% 90%, #0d1222 0%, transparent 60%);
+  background-color: #050812 !important;
+}
+
+.design-tactical .glow-1,
+.design-tactical .glow-2 {
+  opacity: 0.1 !important;
+  filter: blur(140px) !important;
+}
+
+/* 5. SOVEREIGN SERIF */
+.design-editorial {
+  --current-font-sans: "Inter", "Georgia", sans-serif;
+  --current-font-mono: "JetBrains Mono", monospace;
+  --theme-radius: 2px !important;
+  --theme-panel-bg: rgba(16, 14, 13, 0.97) !important;
+  --theme-border: 1px solid rgba(245, 158, 11, 0.16) !important;
+  --theme-shadow: 0 10px 40px rgba(0, 0, 0, 0.6) !important;
+  background-color: #090807 !important;
+}
+
+.design-editorial h1,
+.design-editorial h2,
+.design-editorial h3,
+.design-editorial .sidebar-logo-text {
+  font-family: "Playfair Display", "Georgia", serif !important;
+  letter-spacing: -0.01em;
+  font-weight: 600 !important;
+}
+
+.design-editorial .mesh-gradient {
+  background: radial-gradient(circle at 0% 0%, #281a10 0%, transparent 50%),
+              radial-gradient(circle at 100% 100%, #1c1511 0%, transparent 50%),
+              radial-gradient(circle at 50% 50%, #090807 0%, transparent 100%) !important;
+  background-color: #090807 !important;
+}
+
+.design-editorial .glow-1,
+.design-editorial .glow-2 {
+  opacity: 0.12 !important;
+  filter: blur(150px) !important;
+}
+
 

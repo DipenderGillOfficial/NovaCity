@@ -6,9 +6,10 @@ import { SimulationView } from "./components/SimulationView";
 import { ResourceMapsView } from "./components/ResourceMapsView";
 import { ReportingHubView } from "./components/ReportingHubView";
 import { AnalyticsView } from "./components/AnalyticsView";
-import { ViewType, CivicAlert, SimulationParams, SimulationResult, ChatMessage, EmployeeSuggestion } from "./types";
+import { ViewType, CivicAlert, SimulationParams, SimulationResult, ChatMessage, EmployeeSuggestion, ThemeType, DesignStyle } from "./types";
 import { motion, AnimatePresence } from "motion/react";
 import { getLocalAdvisorResponse } from "./lib/localAdvisor";
+import { CinematicIntro } from "./components/CinematicIntro";
 
 const INITIAL_SUGGESTIONS: EmployeeSuggestion[] = [
   {
@@ -138,6 +139,16 @@ export default function App() {
     return saved ? JSON.parse(saved) : INITIAL_SUGGESTIONS;
   });
 
+  const [theme, setTheme] = useState<ThemeType>(() => {
+    return (localStorage.getItem("novacity_theme") as ThemeType) || "cosmic";
+  });
+
+  const [designStyle, setDesignStyle] = useState<DesignStyle>(() => {
+    return (localStorage.getItem("novacity_design_style") as DesignStyle) || "glass";
+  });
+
+  const [showIntro, setShowIntro] = useState<boolean>(true);
+
   const [isSimulating, setIsSimulating] = useState(false);
   const [isResponding, setIsResponding] = useState(false);
 
@@ -173,6 +184,20 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("novacity_suggestions", JSON.stringify(suggestions));
   }, [suggestions]);
+
+  useEffect(() => {
+    localStorage.setItem("novacity_theme", theme);
+    const body = document.body;
+    body.classList.remove("theme-cosmic", "theme-emerald", "theme-cyberpunk", "theme-solar", "theme-nordic");
+    body.classList.add(`theme-${theme}`);
+  }, [theme]);
+
+  useEffect(() => {
+    localStorage.setItem("novacity_design_style", designStyle);
+    const body = document.body;
+    body.classList.remove("design-glass", "design-terminal", "design-minimalist", "design-tactical", "design-editorial");
+    body.classList.add(`design-${designStyle}`);
+  }, [designStyle]);
 
   // Enforce access control: Dr. Aris Thorne is restricted to Reporting Hub only
   useEffect(() => {
@@ -371,6 +396,16 @@ export default function App() {
   };
 
   const activeReportsCount = alerts.filter(a => a.status === "active").length;
+
+  if (showIntro) {
+    return (
+      <CinematicIntro
+        onComplete={() => setShowIntro(false)}
+        currentTheme={theme}
+        currentDesign={designStyle}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-950 flex text-white font-sans">
