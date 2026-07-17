@@ -1,6 +1,6 @@
 {
-  "name": "NovaCity",
-  "description": "Smart City OS - Next-generation digital twin, real-time spatial analysis, and resource optimization platform.",
+  "name": "Bloomfield",
+  "description": "Environmental Sustainability & Civic Issue Management OS - Real-time municipal twin and community analytics platform.",
   "requestFramePermissions": ["microphone"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

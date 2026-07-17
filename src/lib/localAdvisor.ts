@@ -75,9 +75,9 @@ export function getLocalAdvisorResponse(
     lowerMessage.includes("rate");
 
   if (!isSiteRelated) {
-    return `No, I am sorry, but I do not know about this topic. As the NovaCity central AI Core, I can only answer questions and assist you with topics directly related to this website, its creators, its simulation parameters, and its smart city OS features.
+    return `No, I am sorry, but I do not know about this topic. As the Bloomfield central AI Core, I can only answer questions and assist you with topics directly related to this website, its creators, its simulation parameters, and its environmental & civic OS features.
 
-Please ask me a question related to our smart city systems, such as:
+Please ask me a question related to our municipal systems, such as:
 * **Creators & Team**: "Who built this website?" or "Who is Dipender/Divyam/Shreya/Prakhar?"
 * **Zoning Sliders & Parameters**: "What is our current Green Space Ratio?" or "Explain the public transit frequency limits"
 * **Real-time Simulation Outcomes**: "Show me our estimated ROI" or "How is CO2 reduction calculated?"
@@ -95,7 +95,7 @@ Please ask me a question related to our smart city systems, such as:
 
 **To:** Residents, Businesses, and Municipal Personnel of District 3 (Oakwood Corridor)  
 **Status:** EMERGENCY ADVISORY  
-**Issued by:** NovaCity Municipal Water Authority & Central AI Diagnostics Core  
+**Issued by:** Bloomfield Municipal Water Authority & Central AI Diagnostics Core  
 
 ---
 
@@ -112,7 +112,7 @@ A sudden pressure spike (calculated at \`+24%\` above safety tolerance) has caus
 * **Temporary Pressure Reduction**: Nearby sectors may experience minor pressure drops for the next **3 to 4 hours** while welding repairs are finalized and certified.
 * **Emergency Supply**: Portable fresh-water tankers have been stationed at the **District 3 Civic Plaza** for immediate public use.
 
-*Prepared dynamically by NovaCity AI Core based on active pressure monitoring and grid telemetry.*`;
+*Prepared dynamically by Bloomfield AI Core based on active pressure monitoring and grid telemetry.*`;
   }
 
   // 2. Specific case: Advisory / Draft for Power Outage / Grid Load
@@ -121,7 +121,7 @@ A sudden pressure spike (calculated at \`+24%\` above safety tolerance) has caus
 
 **To:** Residents, Commercial Retailers, and Smart Hubs in District 5 & 7  
 **Status:** CAUTIONARY SYSTEM REGULATION  
-**Issued by:** NovaCity Energy Management & Central AI Load Balancer  
+**Issued by:** Bloomfield Energy Management & Central AI Load Balancer  
 
 ---
 
@@ -129,7 +129,7 @@ A sudden pressure spike (calculated at \`+24%\` above safety tolerance) has caus
 Extreme ambient cooling demands have pushed regional power consumption to a peak grid threshold of \`${result.gridLoadImpact || "82% Capacity"}\`. To prevent thermal damage to central substation transformers, the system is entering an active load-shaving cycle.
 
 #### 🔋 Active Mitigation & Grid Re-balancing
-1. **Albedo Deflection Active**: NovaCity's active Cool Albedo coatings are reflecting solar heat away, saving approximately \`+4.2%\` auxiliary grid cooling load.
+1. **Albedo Deflection Active**: Bloomfield's active Cool Albedo coatings are reflecting solar heat away, saving approximately \`+4.2%\` auxiliary grid cooling load.
 2. **EV Hub Power Throttle**: Smart vehicle charging portals in Sector B have been dynamically adjusted to standard flow rate (non-rapid) to safeguard reserve capacitors.
 3. **Substation Off-Load**: Stored energy in regional lithium-ion micro-arrays is now actively routing back into high-demand apartment towers.
 
@@ -137,7 +137,7 @@ Extreme ambient cooling demands have pushed regional power consumption to a peak
 * **De-congest Peak Demand**: Please defer heavy-load appliances (washing machines, pool filters, dry cycles) until after **19:00 Local Time**.
 * **Smart HVAC Offset**: Minor, remote 1.5°C thermostat increments are being applied to state-owned office buildings to conserve regional power.
 
-*Prepared dynamically by NovaCity AI Core based on live regional electrical loads and battery array statuses.*`;
+*Prepared dynamically by Bloomfield AI Core based on live regional electrical loads and battery array statuses.*`;
   }
 
   // 3. Generic Advisory / Draft
@@ -145,13 +145,13 @@ Extreme ambient cooling demands have pushed regional power consumption to a peak
     return `### 📢 MUNICIPAL PUBLIC ADVISORY DRAFT
 
 **Subject:** General Operational Update & Civic Alignment  
-**Target Audience:** Registered NovaCity Smart Citizens  
+**Target Audience:** Registered Bloomfield Smart Citizens  
 **Issued by:** Central AI Core & Municipal Command  
 
 ---
 
 #### 📡 System Status Briefing
-In accordance with your active urban planning parameters, NovaCity is currently maintaining **optimal performance metrics**:
+In accordance with your active urban planning parameters, Bloomfield is currently maintaining **optimal performance metrics**:
 * **Green Canopy Density**: \`${params.greenSpaceRatio}%\` — currently providing clean air and localized ambient temperature cooling.
 * **Autonomous Transit Frequency**: Running at a \`${params.publicTransitFrequency} minute\` dispatch interval, successfully keeping traffic congestion delays minimized by approximately \`${result.trafficImpact || "-12.5%"}\`.
 * **Vertical Height Ceiling**: Confirmed and enforced at a max of \`${params.buildingHeightLimits} meters\`.
@@ -161,9 +161,9 @@ In accordance with your active urban planning parameters, NovaCity is currently 
 * **Eco-Roof Compliance**: System is reviewing building footprints to expand green zones.
 
 #### 📋 Citizen Action Required
-Please ensure your smart home nodes are configured to sync daily. If you encounter any local utility or road maintenance issues, report them immediately through the **NovaCity Reporting Hub**.
+Please ensure your smart home nodes are configured to sync daily. If you encounter any local utility or road maintenance issues, report them immediately through the **Bloomfield Reporting Hub**.
 
-*Created by NovaCity Client-Side NLP Engine (Offline Fallback).*`;
+*Created by Bloomfield Client-Side NLP Engine (Offline Fallback).*`;
   }
 
   // 4. Creators / Developers
@@ -176,8 +176,8 @@ Please ensure your smart home nodes are configured to sync daily. If you encount
     lowerMessage.includes("who is behind");
 
   if (isAskingAboutCreators) {
-    return `### 🏆 NovaCity Creators & Development Team
-This state-of-the-art NovaCity Smart City OS digital twin was designed and engineered by an outstanding development team:
+    return `### 🏆 Bloomfield Creators & Development Team
+This state-of-the-art Bloomfield Environmental & Civic OS digital twin was designed and engineered by an outstanding development team:
 
 1. **Dipender, Divyam**
    * **Role**: Lead Developers
@@ -205,13 +205,13 @@ This state-of-the-art NovaCity Smart City OS digital twin was designed and engin
   if (isAskingAboutLimits) {
     return `### 🛑 Gemini API Quota & Limit Reset Information
 
-As the central NovaCity AI Core, here is the official diagnostic status regarding API limits and quota windows:
+As the central Bloomfield AI Core, here is the official diagnostic status regarding API limits and quota windows:
 
 * **Rate Limits (Free Tier)**: The Gemini Free Tier has a rate limit of **15 Requests Per Minute (RPM)** and **1,500 Requests Per Day (RPD)**.
 * **When Will My Limit Reset?**:
   - **Minute-level Rate Limit**: Resets automatically **every 60 seconds** after your last call.
   - **Daily-level Quota Limit**: Resets globally at **00:00 UTC** (which is **05:30 AM Indian Standard Time - IST**).
-* **System Resilience**: If you encounter a 429 quota error, our **NovaCity Dynamic Local Fallback Engine** immediately takes over. It simulates realistic, context-aware smart city responses, ensuring zero interruption to your simulation metrics and dashboard panels!`;
+* **System Resilience**: If you encounter a 429 quota error, our **Bloomfield Dynamic Local Fallback Engine** immediately takes over. It simulates realistic, context-aware smart city responses, ensuring zero interruption to your simulation metrics and dashboard panels!`;
   }
 
   // 6. PUBG / BGMI Ban Inquiries
@@ -226,7 +226,7 @@ As the central NovaCity AI Core, here is the official diagnostic status regardin
 While my central processing cores are primarily designed for optimizing smart-grid loads and municipal water routes, I have pulled our digital recreation records regarding game regulations:
 
 * **Zoning & Regulatory Action**: PlayerUnknown's Battlegrounds (PUBG) has been banned or restricted in several national grids (including India, where it was later refactored and re-released as BGMI - Battlegrounds Mobile India) due to digital security, data privacy policies, and screen-time guidelines.
-* **NovaCity Digital Twin Simulation**: In our sustainable urban plan for 2030, high-bandwidth gaming lines are allocated dynamically. Localized digital recreation zones in District 7 are equipped with solar-powered, low-latency micro-servers. This supports competitive esports hubs without compromising emergency communication or energy grids!`;
+* **Bloomfield Digital Twin Simulation**: In our sustainable urban plan for 2030, high-bandwidth gaming lines are allocated dynamically. Localized digital recreation zones in District 7 are equipped with solar-powered, low-latency micro-servers. This supports competitive esports hubs without compromising emergency communication or energy grids!`;
   }
 
   // 7. Water / Leakage / Pipe / Utility specific questions (without advisory)
@@ -236,7 +236,7 @@ You queried our hydro-utility distribution layer. Here is the active diagnostic 
 
 * **Flow Integrity Index**: \`98.4%\` nominal pipe lining throughput across major grids.
 * **Average Delivery Pressure**: \`4.1 bar\` (within optimal safety margins of 3.5 - 4.5 bar).
-* **Automated Safety Shield**: NovaCity's active seismic flow meters measure microscopic ground tremors and anomalous friction noises along primary pipe walls to spot and isolate micro-leakages before a physical crack ruptures.
+* **Automated Safety Shield**: Bloomfield's active seismic flow meters measure microscopic ground tremors and anomalous friction noises along primary pipe walls to spot and isolate micro-leakages before a physical crack ruptures.
 * **Actionable Insight**: 
   - To generate a complete public notice for municipal channels regarding this topic, type: **"Draft a public advisory for main leakage"** in the chat console!`;
   }
@@ -251,8 +251,8 @@ You queried our hydro-utility distribution layer. Here is the active diagnostic 
     lowerMessage.includes("good afternoon");
 
   if (isGreeting) {
-    return `### 📡 NovaCity AI Core Online
-Greetings, Admin. I am the central operating intelligence of NovaCity. 
+    return `### 📡 Bloomfield AI Core Online
+Greetings, Admin. I am the central operating intelligence of Bloomfield. 
 
 All diagnostic telemetry channels are stable. How can I assist you with city planning, resource allocation, or active simulations today?
 
@@ -353,9 +353,9 @@ Financial models have completed multi-variable amortization calculations:
   ];
   const chosenAction = actionTopics[message.length % actionTopics.length];
 
-  return `### 📡 NovaCity AI Core Operational Update
+  return `### 📡 Bloomfield AI Core Operational Update
 
-Thank you for your inquiry: "${message}". Since we are running on local grid backup, I have simulated a custom response based on NovaCity's active telemetry:
+Thank you for your inquiry: "${message}". Since we are running on local grid backup, I have simulated a custom response based on Bloomfield's active telemetry:
 
 * **Grid Stability & Load**: Currently running at \`${result.gridLoadImpact || "78% Capacity"}\`.
 * **Resource Allocation**:

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { SimulationParams, SimulationResult } from "../types";
 import { motion } from "motion/react";
 // @ts-ignore
-import bhopalMap from "../assets/images/bhopal_tech_map_1784013150389.jpg";
+import bhopalMap from "../assets/images/bhopal_blueprint_matched_1784300987322.jpg";
 // @ts-ignore
-import vitBhopalSatellite from "../assets/images/vit_bhopal_satellite_1784013363224.jpg";
+import bhopalUrbanSatellite from "../assets/images/bhopal_urban_satellite_1784300298878.jpg";
 
 interface SimulationViewProps {
   params: SimulationParams;
@@ -26,7 +26,7 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
   onAddSuggestion
 }) => {
   const [activeZone, setActiveZone] = useState<string>("Zone 7");
-  const [mapType, setMapType] = useState<"bhopal" | "vit_satellite" | "bhopal_tech">("vit_satellite");
+  const [mapType, setMapType] = useState<"bhopal" | "bhopal_satellite" | "bhopal_tech">("bhopal_satellite");
   const [is3D, setIs3D] = useState<boolean>(false);
   const [zoom, setZoom] = useState<number>(1.0);
   const [showLayers, setShowLayers] = useState<boolean>(true);
@@ -100,8 +100,8 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
           <div 
             className="w-full h-full absolute inset-0 bg-cover bg-center transition-all duration-700"
             style={{
-              backgroundImage: `url('${mapType === "vit_satellite" ? vitBhopalSatellite : bhopalMap}')`,
-              opacity: mapType === "vit_satellite" ? 0.65 : 0.4
+              backgroundImage: `url('${mapType === "bhopal_satellite" ? bhopalUrbanSatellite : bhopalMap}')`,
+              opacity: mapType === "bhopal_satellite" ? 0.65 : 0.4
             }}
           />
 
@@ -113,51 +113,20 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
                 cx="75%" 
                 cy="55%" 
                 r={`${20 + (params.greenSpaceRatio * 0.8)}px`} 
-                fill="rgba(99, 102, 241, 0.15)" 
-                stroke="rgba(99, 102, 241, 0.4)" 
+                fill="rgba(16, 185, 129, 0.12)" 
+                stroke="rgba(16, 185, 129, 0.35)" 
                 strokeWidth="1.5"
                 className="transition-all duration-300"
-              />
-              {/* Transit Line connection paths glowing and pulsing */}
-              <path 
-                d="M 250 350 L 450 650 L 600 250" 
-                fill="none" 
-                stroke="rgba(236, 72, 153, 0.5)" 
-                strokeWidth={`${2 + (20 - params.publicTransitFrequency) * 0.3}`} 
-                strokeDasharray="8, 6" 
-                className="transition-all duration-300 animate-pulse"
-              />
-
-              {/* Interactive height vectors mimicking 3D buildings depending on height Limit */}
-              <line 
-                x1="35%" 
-                y1="40%" 
-                x2="35%" 
-                y2={`${40 - (params.buildingHeightLimits * 0.1)}%`} 
-                stroke="#6366f1" 
-                strokeWidth="6" 
-                strokeLinecap="round" 
-                className="transition-all duration-300 opacity-60"
-              />
-              <line 
-                x1="38%" 
-                y1="45%" 
-                x2="38%" 
-                y2={`${45 - (params.buildingHeightLimits * 0.08)}%`} 
-                stroke="#ec4899" 
-                strokeWidth="8" 
-                strokeLinecap="round" 
-                className="transition-all duration-300 opacity-60"
               />
             </svg>
           )}
 
           {/* Floating animated markers */}
-          {showLayers && (mapType === "vit_satellite" ? [
-            { name: "VIT Academic Hub", top: "48%", left: "58%", desc: "Central Block", key: "hub" },
-            { name: "Hostel Blocks", top: "35%", left: "32%", desc: "Residential", key: "hostels" },
-            { name: "Campus Lake", top: "65%", left: "70%", desc: "Ecological", key: "lake" },
-            { name: "Innovation Labs", top: "25%", left: "48%", desc: "Solar Tech Core", key: "labs" },
+          {showLayers && (mapType === "bhopal_satellite" ? [
+            { name: "Upper Lake Oasis", top: "62%", left: "30%", desc: "Ecological & Water Reservoir", key: "upper_lake" },
+            { name: "MP Nagar Commercial", top: "48%", left: "68%", desc: "Commercial Hub", key: "mp_nagar" },
+            { name: "Arera Hills Sector", top: "45%", left: "55%", desc: "Administrative & Solar Grid", key: "arera_hills" },
+            { name: "Bhopal Junction Hub", top: "28%", left: "60%", desc: "Central Transit Node", key: "bhopal_junction" },
           ] : [
             { name: `${activeZone}: High Density`, top: "48%", left: "58%", desc: "District Center", key: "zone7" }
           ]).map((pin) => (
@@ -376,15 +345,15 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
 
           <div className="glass-panel border border-white/10 rounded-full p-1.5 shadow-lg shadow-black/40 flex items-center gap-1 pointer-events-auto backdrop-blur-md">
             <button
-              onClick={() => setMapType("vit_satellite")}
+              onClick={() => setMapType("bhopal_satellite")}
               className={`px-4 py-1.5 rounded-full text-[11px] font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                mapType === "vit_satellite"
+                mapType === "bhopal_satellite"
                   ? "bg-indigo-600 text-white shadow-sm shadow-indigo-500/20"
                   : "text-slate-400 hover:text-white"
               }`}
             >
               <span className="material-symbols-outlined text-sm">satellite_alt</span>
-              VIT Bhopal Satellite
+              Bhopal City Satellite View
             </button>
             <button
               onClick={() => setMapType("bhopal_tech")}
@@ -551,7 +520,7 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
             <div className="p-3 bg-indigo-500/5 rounded-xl border border-white/10 text-[11px] text-slate-300">
               <p className="font-bold text-indigo-300 flex items-center gap-1 uppercase tracking-wider mb-1">
                 <span className="material-symbols-outlined text-sm">psychology</span>
-                NovaCity AI Core Advice
+                Bloomfield AI Core Advice
               </p>
               <p className="leading-relaxed">
                 {result.recommendation}

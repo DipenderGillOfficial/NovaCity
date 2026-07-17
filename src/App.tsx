@@ -96,7 +96,7 @@ const INITIAL_CHAT: ChatMessage[] = [
   {
     id: "msg-1",
     role: "assistant",
-    content: "Greetings. I am the NovaCity Core Advisor. I help manage civic services, optimize resources, and model urban parameters.",
+    content: "Greetings. I am the Bloomfield Core Advisor. I help manage environmental sustainability, optimize resources, and model civic parameters.",
     timestamp: "10:24 AM"
   }
 ];
@@ -104,47 +104,47 @@ const INITIAL_CHAT: ChatMessage[] = [
 export default function App() {
   // Global States (with localStorage synchronization where relevant)
   const [currentView, setCurrentView] = useState<ViewType>(() => {
-    const saved = localStorage.getItem("novacity_view");
+    const saved = localStorage.getItem("bloomfield_view");
     return (saved as ViewType) || "dashboard";
   });
 
   const [activeProfile, setActiveProfile] = useState<string>(() => {
-    return localStorage.getItem("novacity_profile") || "admin_root";
+    return localStorage.getItem("bloomfield_profile") || "admin_root";
   });
 
   const [searchQuery, setSearchQuery] = useState("");
 
   const [alerts, setAlerts] = useState<CivicAlert[]>(() => {
-    const saved = localStorage.getItem("novacity_alerts");
+    const saved = localStorage.getItem("bloomfield_alerts");
     return saved ? JSON.parse(saved) : INITIAL_ALERTS;
   });
 
   const [simulationParams, setSimulationParams] = useState<SimulationParams>(() => {
-    const saved = localStorage.getItem("novacity_sim_params");
+    const saved = localStorage.getItem("bloomfield_sim_params");
     return saved ? JSON.parse(saved) : INITIAL_SIMULATION_PARAMS;
   });
 
   const [simulationResult, setSimulationResult] = useState<SimulationResult>(() => {
-    const saved = localStorage.getItem("novacity_sim_result");
+    const saved = localStorage.getItem("bloomfield_sim_result");
     return saved ? JSON.parse(saved) : INITIAL_SIMULATION_RESULT;
   });
 
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>(() => {
-    const saved = localStorage.getItem("novacity_chat");
+    const saved = localStorage.getItem("bloomfield_chat");
     return saved ? JSON.parse(saved) : INITIAL_CHAT;
   });
 
   const [suggestions, setSuggestions] = useState<EmployeeSuggestion[]>(() => {
-    const saved = localStorage.getItem("novacity_suggestions");
+    const saved = localStorage.getItem("bloomfield_suggestions");
     return saved ? JSON.parse(saved) : INITIAL_SUGGESTIONS;
   });
 
   const [theme, setTheme] = useState<ThemeType>(() => {
-    return (localStorage.getItem("novacity_theme") as ThemeType) || "cosmic";
+    return (localStorage.getItem("bloomfield_theme") as ThemeType) || "cosmic";
   });
 
   const [designStyle, setDesignStyle] = useState<DesignStyle>(() => {
-    return (localStorage.getItem("novacity_design_style") as DesignStyle) || "glass";
+    return (localStorage.getItem("bloomfield_design_style") as DesignStyle) || "glass";
   });
 
   const [showIntro, setShowIntro] = useState<boolean>(true);
@@ -158,42 +158,42 @@ export default function App() {
 
   // Sync to LocalStorage
   useEffect(() => {
-    localStorage.setItem("novacity_view", currentView);
+    localStorage.setItem("bloomfield_view", currentView);
   }, [currentView]);
 
   useEffect(() => {
-    localStorage.setItem("novacity_profile", activeProfile);
+    localStorage.setItem("bloomfield_profile", activeProfile);
   }, [activeProfile]);
 
   useEffect(() => {
-    localStorage.setItem("novacity_alerts", JSON.stringify(alerts));
+    localStorage.setItem("bloomfield_alerts", JSON.stringify(alerts));
   }, [alerts]);
 
   useEffect(() => {
-    localStorage.setItem("novacity_sim_params", JSON.stringify(simulationParams));
+    localStorage.setItem("bloomfield_sim_params", JSON.stringify(simulationParams));
   }, [simulationParams]);
 
   useEffect(() => {
-    localStorage.setItem("novacity_sim_result", JSON.stringify(simulationResult));
+    localStorage.setItem("bloomfield_sim_result", JSON.stringify(simulationResult));
   }, [simulationResult]);
 
   useEffect(() => {
-    localStorage.setItem("novacity_chat", JSON.stringify(chatHistory));
+    localStorage.setItem("bloomfield_chat", JSON.stringify(chatHistory));
   }, [chatHistory]);
 
   useEffect(() => {
-    localStorage.setItem("novacity_suggestions", JSON.stringify(suggestions));
+    localStorage.setItem("bloomfield_suggestions", JSON.stringify(suggestions));
   }, [suggestions]);
 
   useEffect(() => {
-    localStorage.setItem("novacity_theme", theme);
+    localStorage.setItem("bloomfield_theme", theme);
     const body = document.body;
     body.classList.remove("theme-cosmic", "theme-emerald", "theme-cyberpunk", "theme-solar", "theme-nordic");
     body.classList.add(`theme-${theme}`);
   }, [theme]);
 
   useEffect(() => {
-    localStorage.setItem("novacity_design_style", designStyle);
+    localStorage.setItem("bloomfield_design_style", designStyle);
     const body = document.body;
     body.classList.remove("design-glass", "design-terminal", "design-minimalist", "design-tactical", "design-editorial");
     body.classList.add(`design-${designStyle}`);

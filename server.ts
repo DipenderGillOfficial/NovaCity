@@ -37,38 +37,55 @@ function getAI(): GoogleGenAI {
 // Helper to call generateContent with automatic retry and model fallback when encountering rate limits / 503 high demand
 async function generateContentWithRetry(params: { model: string; contents: any; config?: any }, retries = 3, initialDelay = 1000): Promise<any> {
   const ai = getAI();
-  const modelsToTry = [params.model, "gemini-3.1-flash-lite"];
+  
+  // Robust list of models to try in sequence to bypass localized high-demand or capacity issues
+  const modelsToTry = [
+    params.model,
+    "gemini-3.5-flash",
+    "gemini-flash-latest",
+    "gemini-3.1-flash-lite"
+  ].filter((v, i, a) => a.indexOf(v) === i); // Deduplicate maintaining order
+  
   let lastError: any = null;
 
   for (const modelName of modelsToTry) {
     let delay = initialDelay;
     for (let attempt = 1; attempt <= retries; attempt++) {
       try {
-        console.log(`Sending prompt to ${modelName} (Attempt ${attempt}/${retries})...`);
+        console.log(`[Bloomfield AI] Querying routing channel via ${modelName}...`);
         const response = await ai.models.generateContent({
           ...params,
           model: modelName,
         });
         return response;
       } catch (err: any) {
-        console.error(`[Gemini Error on ${modelName}]:`, err);
         lastError = err;
         const status = err?.status || err?.code || (err?.error && err.error.code);
+        const errMessageStr = String(err?.message || err || "").toLowerCase();
+        const errStr = String(err || "").toLowerCase();
+        
         const isTransient =
           status === 503 ||
           status === 429 ||
-          err?.message?.includes("503") ||
-          err?.message?.includes("429") ||
-          err?.message?.includes("UNAVAILABLE") ||
-          err?.message?.includes("high demand") ||
-          err?.message?.includes("overloaded");
+          errMessageStr.includes("503") ||
+          errMessageStr.includes("429") ||
+          errMessageStr.includes("unavailable") ||
+          errMessageStr.includes("high demand") ||
+          errMessageStr.includes("overloaded") ||
+          errMessageStr.includes("quota") ||
+          errStr.includes("503") ||
+          errStr.includes("429") ||
+          errStr.includes("unavailable") ||
+          errStr.includes("high demand") ||
+          errStr.includes("overloaded") ||
+          errStr.includes("quota");
 
         if (isTransient && attempt < retries) {
-          console.log(`[Gemini Sync] Status (${status || '503'}) on ${modelName}. Retrying in ${delay}ms...`);
+          console.log(`[Bloomfield AI] Retrying current channel after short interval...`);
           await new Promise((resolve) => setTimeout(resolve, delay));
-          delay *= 2; // Exponential backoff
+          delay *= 1.5; // Exponential backoff
         } else {
-          console.log(`[Gemini Sync] Model ${modelName} shifted to offline fallback status`);
+          console.log(`[Bloomfield AI] Shifting dynamic routing to fallback channel options`);
           break; // Switch to the next model fallback
         }
       }
@@ -108,8 +125,8 @@ app.post("/api/gemini/advisor", async (req, res) => {
 
     if (isAskingAboutCreators) {
       return res.json({
-        reply: `### 🏆 NovaCity Creators & Development Team
-This state-of-the-art NovaCity Smart City OS digital twin was designed and engineered by an outstanding development team:
+        reply: `### 🏆 Bloomfield Creators & Development Team
+This state-of-the-art Bloomfield Environmental & Civic OS digital twin was designed and engineered by an outstanding development team:
 
 1. **Dipender, Divyam**
    * **Role**: Lead Developers
@@ -139,13 +156,13 @@ This state-of-the-art NovaCity Smart City OS digital twin was designed and engin
       return res.json({
         reply: `### 🛑 Gemini API Quota & Limit Reset Information
 
-As the central NovaCity AI Core, here is the official diagnostic status regarding API limits and quota windows:
+As the central Bloomfield AI Core, here is the official diagnostic status regarding API limits and quota windows:
 
 * **Rate Limits (Free Tier)**: The Gemini Free Tier has a rate limit of **15 Requests Per Minute (RPM)** and **1,500 Requests Per Day (RPD)**.
 * **When Will My Limit Reset?**:
   - **Minute-level Rate Limit**: Resets automatically **every 60 seconds** after your last call.
   - **Daily-level Quota Limit**: Resets globally at **00:00 UTC** (which is **05:30 AM Indian Standard Time - IST**).
-* **System Resilience**: If you encounter a 429 quota error, our **NovaCity Dynamic Local Fallback Engine** immediately takes over. It simulates realistic, context-aware smart city responses, ensuring zero interruption to your simulation metrics and dashboard panels!`
+* **System Resilience**: If you encounter a 429 quota error, our **Bloomfield Dynamic Local Fallback Engine** immediately takes over. It simulates realistic, context-aware smart city responses, ensuring zero interruption to your simulation metrics and dashboard panels!`
       });
     }
 
@@ -162,14 +179,14 @@ As the central NovaCity AI Core, here is the official diagnostic status regardin
 While my central processing cores are primarily designed for optimizing smart-grid loads and municipal water routes, I have pulled our digital recreation records regarding game regulations:
 
 * **Zoning & Regulatory Action**: PlayerUnknown's Battlegrounds (PUBG) has been banned or restricted in several national grids (including India, where it was later refactored and re-released as BGMI - Battlegrounds Mobile India) due to digital security, data privacy policies, and screen-time guidelines.
-* **NovaCity Digital Twin Simulation**: In our sustainable urban plan for 2030, high-bandwidth gaming lines are allocated dynamically. Localized digital recreation zones in District 7 are equipped with solar-powered, low-latency micro-servers. This supports competitive esports hubs without compromising emergency communication or energy grids!`
+* **Bloomfield Digital Twin Simulation**: In our sustainable urban plan for 2030, high-bandwidth gaming lines are allocated dynamically. Localized digital recreation zones in District 7 are equipped with solar-powered, low-latency micro-servers. This supports competitive esports hubs without compromising emergency communication or energy grids!`
       });
     }
 
     const ai = getAI();
     
     // Structure context system instruction
-    let systemInstruction = `You are "NovaCity AI Core", the intelligent central nervous system and executive advisor of NovaCity (a state-of-the-art sustainable smart city).
+    let systemInstruction = `You are "Bloomfield AI Core", the intelligent central nervous system and executive advisor of Bloomfield (a state-of-the-art sustainable smart city).
 You assist city administrators (such as Lead Strategist Dr. Aris Thorne or Supervisor Admin Unit 01) with:
 1. Spatial analysis & resource routing
 2. Renewable energy grid optimization (Solar/Wind integration)
@@ -185,11 +202,11 @@ Members & Roles:
 3. Prakhar - Documentation, PPT, Project File
 
 CRITICAL REQUIREMENT - HANDLING UNRELATED TOPICS:
-If the user asks any question that is NOT related to NovaCity, this website, its developers/creators, its simulation parameters, its urban metrics, or its smart city features, you MUST respond with a variation of:
-"No, I am sorry, but I do not know about this topic. As the NovaCity central AI Core, I only have access to information regarding this website, the NovaCity Smart City OS digital twin, our developers, and local urban simulation parameters."
+If the user asks any question that is NOT related to Bloomfield, this website, its developers/creators, its simulation parameters, its urban metrics, or its smart city features, you MUST respond with a variation of:
+"No, I am sorry, but I do not know about this topic. As the Bloomfield central AI Core, I only have access to information regarding this website, the Bloomfield Smart City OS digital twin, our developers, and local urban simulation parameters."
 Do NOT answer general knowledge, programming, history, cooking, sports, humor, or other unrelated questions. For any question not based on the site, say no and say you do not know about it. For all questions based on the site, you must answer completely, intelligently, and accurately.
 
-Be professional, objective, highly analytical, and concise. Use realistic data and terminology like "District 4 Water Grid", "EV Hub B rerouting", "Adaptive LED mesh network". Keep formatting clean and highly scannable using brief markdown bullet points. Do not mention that you are a language model or refer to system bounds. Speak as a direct live API interface of NovaCity OS.`;
+Be professional, objective, highly analytical, and concise. Use realistic data and terminology like "District 4 Water Grid", "EV Hub B rerouting", "Adaptive LED mesh network". Keep formatting clean and highly scannable using brief markdown bullet points. Do not mention that you are a language model or refer to system bounds. Speak as a direct live API interface of Bloomfield OS.`;
 
     if (alerts && Array.isArray(alerts)) {
       systemInstruction += `\n\n[LIVE TELEMETRY - ACTIVE CIVIL STATUS & INCIDENTS]:\n` + 
@@ -250,10 +267,10 @@ Be professional, objective, highly analytical, and concise. Use realistic data a
       },
     });
 
-    const reply = response.text || "No response received from NovaCity AI Core.";
+    const reply = response.text || "No response received from Bloomfield AI Core.";
     res.json({ reply });
   } catch (err: any) {
-    console.error("[Advisor Engine Error - Running Dynamic Fallback]:", err);
+    console.log("[Advisor Engine Info] Transitioning to local simulation backup channel");
     
     // Parse context and formulate a highly detailed, personalized, professional mock response
     const msgLower = message.toLowerCase();
@@ -328,9 +345,9 @@ Be professional, objective, highly analytical, and concise. Use realistic data a
     let dynamicReply = "";
     
     if (!isSiteRelated) {
-      dynamicReply = `No, I am sorry, but I do not know about this topic. As the NovaCity central AI Core, I can only answer questions and assist you with topics directly related to this website, its creators, its simulation parameters, and its smart city OS features.
+      dynamicReply = `No, I am sorry, but I do not know about this topic. As the Bloomfield central AI Core, I can only answer questions and assist you with topics directly related to this website, its creators, its simulation parameters, and its environmental & civic OS features.
 
-Please ask me a question related to our smart city systems, such as:
+Please ask me a question related to our municipal systems, such as:
 * **Creators & Team**: "Who built this website?" or "Who is Dipender/Divyam/Shreya/Prakhar?"
 * **Zoning Sliders & Parameters**: "What is our current Green Space Ratio?" or "Explain the public transit frequency limits"
 * **Real-time Simulation Outcomes**: "Show me our estimated ROI" or "How is CO2 reduction calculated?"
@@ -340,12 +357,12 @@ Please ask me a question related to our smart city systems, such as:
 In response to your query regarding the water main infrastructure in District 4, here is our localized strategic modeling:
 
 * **Isolation Successful**: Valve isolation controls on Sector 4-B were successfully actuated to stabilize pressure dropages across immediate lines.
-* **Crews Dispatched**: NovaCity Engineering Crew Unit 4 is active on site. Scheduled repair time is estimated at 3 hours.
+* **Crews Dispatched**: Bloomfield Engineering Crew Unit 4 is active on site. Scheduled repair time is estimated at 3 hours.
 * **Smart Drainage**: Runoff is being successfully routed into the newly installed District 4 bioswales, mitigating localized street flooding.
 * **Advisory Recommendation**: Prepare a low-priority public advisory instructing households in immediate surrounding blocks (Blocks 10-15) to minimize high-flow usage until pressure normalization is complete.`;
     } else if (msgLower.includes("solar") || msgLower.includes("energy") || msgLower.includes("grid") || msgLower.includes("power") || msgLower.includes("wind") || msgLower.includes("electricity") || msgLower.includes("generator")) {
       dynamicReply = `### Renewable Grid & Energy Distribution Analysis
-NovaCity high-density electrical grids are currently operating under the following localized optimization matrices:
+Bloomfield high-density electrical grids are currently operating under the following localized optimization matrices:
 
 * **Solar Highlands Peak**: District 7 Solar Highlands is operating at 94% generating capacity. Excess generation is being successfully directed to central lithium-iron storage cells.
 * **EV Hub Routing**: Dynamic power routing to EV Hub B has been initiated to absorb 1.2MW of excess solar leakage during peak midday irradiance.
@@ -360,10 +377,10 @@ Here is a pre-formatted draft public advisory compiled from active civic telemet
 * **Resident Action Items**:
   1. Conserve water/power in affected areas during the repair window.
   2. Follow local detour signs around emergency vehicles.
-  3. Report any secondary pressure drops or grid anomalies via NovaCity Reporting Hub.
+  3. Report any secondary pressure drops or grid anomalies via Bloomfield Reporting Hub.
 * **Expected Resolution**: Operations are estimated to reach full clearance in 4 hours.`;
     } else {
-      dynamicReply = `### NovaCity OS Central Advisory Report
+      dynamicReply = `### Bloomfield OS Central Advisory Report
 Based on your administrative query ("${message}"), our local analytical backup engine has compiled the following strategic summary:
 
 * **Telemetry Status**: Primary systems are nominal. Active alerts in District 4 are being managed with high operational priority.
@@ -382,7 +399,7 @@ app.post("/api/gemini/simulate", async (req, res) => {
 
     const ai = getAI();
 
-    const prompt = `Analyze the environmental and urban impact for the following NovaCity parameters:
+    const prompt = `Analyze the environmental and urban impact for the following Bloomfield parameters:
 - Green Space Ratio: ${greenSpaceRatio}%
 - Public Transit Frequency: ${publicTransitFrequency} minutes
 - Building Height Limits: ${buildingHeightLimits} meters
@@ -510,7 +527,7 @@ Generate a JSON object containing:
     const { incidentType, district, impactScope } = req.body;
     res.json({
       title: `CIVIC NOTICE: Scheduled ${incidentType} - ${district}`,
-      lead: `NovaCity utilities division has scheduled maintenance and repairs in your district.`,
+      lead: `Bloomfield utilities division has scheduled maintenance and repairs in your district.`,
       details: `In order to address the reported ${incidentType} in ${district}, municipal engineering crews have been dispatched. Minor service disruptions are expected within a ${impactScope || "2-block radius"}.`,
       actionItems: [
         "Follow local detour signs and slow down around municipal crew vehicles.",
@@ -547,7 +564,7 @@ async function startServer() {
   }
 
   server.listen(PORT, "0.0.0.0", () => {
-    console.log(`NovaCity Full-Stack Server listening at http://localhost:${PORT}`);
+    console.log(`Bloomfield Full-Stack Server listening at http://localhost:${PORT}`);
   });
 }
 

@@ -59,10 +59,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <span className="material-symbols-outlined text-3xl font-bold select-none text-indigo-400 bg-clip-text" style={{ fontVariationSettings: "'FILL' 1" }}>
             location_city
           </span>
-          NovaCity
+          Bloomfield
         </h1>
         <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest mt-1">
-          Smart City OS
+          Environmental & Civic OS
         </p>
       </div>
 

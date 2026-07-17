@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NovaCity | Smart City OS</title>
+    <title>Bloomfield | Environmental & Civic OS</title>
     <!-- Cookie & Session-based automatic single-refresh on open with foolproof loop prevention -->
     <script>
       (function() {
@@ -13,7 +13,7 @@
         }
 
         try {
-          var key = 'novacity_refreshed';
+          var key = 'bloomfield_refreshed';
           if (sessionStorage.getItem(key)) {
             return;
           }
@@ -26,19 +26,19 @@
           var cookies = document.cookie.split('; ');
           var hasRefreshed = false;
           for (var i = 0; i < cookies.length; i++) {
-            if (cookies[i].indexOf('novacity_refreshed=') === 0) {
+            if (cookies[i].indexOf('bloomfield_refreshed=') === 0) {
               hasRefreshed = true;
               break;
             }
           }
           if (!hasRefreshed) {
-            document.cookie = "novacity_refreshed=true; path=/; SameSite=Lax";
+            document.cookie = "bloomfield_refreshed=true; path=/; SameSite=Lax";
             
             // Verify if cookie write was successful to prevent infinite loop on blocked cookies
             var checkCookies = document.cookie.split('; ');
             var verified = false;
             for (var j = 0; j < checkCookies.length; j++) {
-              if (checkCookies[j].indexOf('novacity_refreshed=') === 0) {
+              if (checkCookies[j].indexOf('bloomfield_refreshed=') === 0) {
                 verified = true;
                 break;
               }

@@ -192,7 +192,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
                 </div>
                 <div>
                   <h3 className="font-extrabold text-white font-sans text-base">
-                    NovaCity AI Advisor
+                    Bloomfield AI Advisor
                   </h3>
                   <p className="text-[10px] font-mono font-bold tracking-wider text-pink-400 uppercase">
                     Decision Core v2.4
@@ -323,7 +323,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
                   <span className="material-symbols-outlined text-md font-bold animate-spin">autorenew</span>
                 </div>
                 <div className="p-4 bg-white/5 rounded-2xl rounded-tl-none border border-white/10 text-xs font-semibold text-slate-400 font-mono tracking-wider select-none flex items-center gap-2">
-                  NovaCity Advisor core is computing response...
+                  Bloomfield Advisor core is computing response...
                 </div>
               </div>
             )}
@@ -439,7 +439,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
                 onChange={(e) => setInputText(e.target.value)}
                 disabled={isResponding}
                 className="flex-1 bg-white/5 border border-white/10 rounded-xl px-5 py-3 text-sm focus:ring-2 focus:ring-indigo-500/25 outline-none text-white placeholder:text-slate-500"
-                placeholder={isRecording ? "Listening closely... Speak now" : "Ask NovaCity AI Advisor..."}
+                placeholder={isRecording ? "Listening closely... Speak now" : "Ask Bloomfield AI Advisor..."}
               />
               <button
                 type="submit"

@@ -70,7 +70,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button 
             onClick={() => onNavigate("analytics")}
             className="text-slate-300 hover:text-indigo-400 transition-colors cursor-pointer select-none flex items-center justify-center p-1 rounded-full hover:bg-white/10"
-            title="NovaCity Smart Advisor Settings"
+            title="Bloomfield Smart Advisor Settings"
           >
             <span className="material-symbols-outlined">settings</span>
           </button>

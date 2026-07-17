@@ -19,7 +19,7 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [speed, setSpeed] = useState<number>(1); // 1x, 1.5x, 2x
   const [telemetryLogs, setTelemetryLogs] = useState<string[]>([
-    "INITIALIZING NOVACITY OS v4.81...",
+    "INITIALIZING BLOOMFIELD OS v4.81...",
     "ESTABLISHING HOST CONNECTION..."
   ]);
 
@@ -174,7 +174,7 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-indigo-500 animate-ping" />
             <p className="text-[10px] font-mono tracking-widest text-slate-400 uppercase">
-              NovaCity OS Intro Reel • Live Render Engine
+              Bloomfield OS Intro Reel • Live Render Engine
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -223,7 +223,7 @@ export const CinematicIntro: React.FC<CinematicIntroProps> = ({
                     </span>
                   </div>
                   <h1 className="text-3xl md:text-5xl font-black font-sans tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-pink-400 to-teal-300 drop-shadow-lg">
-                    N O V A C I T Y
+                    B L O O M F I E L D
                   </h1>
                   <p className="text-xs font-mono tracking-[0.2em] text-slate-400 mt-2">
                     GEOSPATIAL DECISION ROOM v4.8
