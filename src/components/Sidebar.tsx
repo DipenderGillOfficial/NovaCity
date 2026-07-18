@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ViewType } from "../types";
+import { soundscapeEngine } from "../lib/audioEngine";
 
 interface SidebarProps {
   currentView: ViewType;
@@ -36,6 +37,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onProfileChange
 }) => {
   const [showProfileSelector, setShowProfileSelector] = useState(false);
+  const [activeAudioFeed, setActiveAudioFeed] = useState(soundscapeEngine.getCurrentFeed());
+  const [audioVolume, setAudioVolume] = useState(soundscapeEngine.getVolume());
+
+  const handleAudioToggle = (feed: string) => {
+    if (activeAudioFeed === feed) {
+      soundscapeEngine.stopAll();
+      setActiveAudioFeed("off");
+    } else {
+      soundscapeEngine.playFeed(feed);
+      setActiveAudioFeed(feed);
+    }
+  };
+
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newVol = parseFloat(e.target.value);
+    soundscapeEngine.setVolume(newVol);
+    setAudioVolume(newVol);
+  };
 
   const selectedProfile = PROFILES.find(p => p.id === activeProfile) || PROFILES[0];
 
@@ -52,9 +71,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
     : allMenuItems;
 
   return (
-    <aside className="glass-panel h-screen w-64 fixed left-0 top-0 border-r border-white/10 flex flex-col py-8 z-[60] select-none text-white backdrop-blur-2xl">
-      {/* Brand Logo */}
-      <div className="px-6 mb-4">
+    <aside className="glass-panel h-screen w-64 fixed left-0 top-0 border-r border-white/10 flex flex-col py-6 z-[60] select-none text-white backdrop-blur-2xl">
+      {/* Brand Logo - Fixed */}
+      <div className="px-6 mb-4 shrink-0">
         <h1 className="text-3xl font-extrabold tracking-tight flex items-center gap-1.5 font-sans bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-pink-400 select-none">
           <span className="material-symbols-outlined text-3xl font-bold select-none text-indigo-400 bg-clip-text" style={{ fontVariationSettings: "'FILL' 1" }}>
             location_city
@@ -66,58 +85,128 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </p>
       </div>
 
-      {/* Access Control Status Indicator */}
-      <div className="mx-4 mb-6 px-4 py-2 bg-white/5 border border-white/10 rounded-xl">
-        <p className="text-[10px] text-slate-400 font-mono font-bold uppercase tracking-wider">
-          Security Level
-        </p>
-        <p className={`text-xs font-bold font-mono mt-0.5 flex items-center gap-1.5 ${
-          activeProfile === "aris_thorne" 
-            ? "text-amber-400" 
-            : activeProfile === "admin_unit_01" 
-              ? "text-sky-400" 
-              : "text-emerald-400"
-        }`}>
-          <span className={`w-1.5 h-1.5 rounded-full ${
-            activeProfile === "aris_thorne" 
-              ? "bg-amber-400" 
-              : activeProfile === "admin_unit_01" 
-                ? "bg-sky-400 animate-pulse" 
-                : "bg-emerald-400 animate-pulse"
-          }`} />
-          {activeProfile === "aris_thorne" 
-            ? "Restricted Manager" 
-            : activeProfile === "admin_unit_01" 
-              ? "Employee (Read-Only)" 
-              : "Root Admin Access"}
-        </p>
+      {/* Scrollable Center Area */}
+      <div className="flex-1 overflow-y-auto px-1 space-y-4 min-h-0">
+        {/* Navigation Links */}
+        <nav className="space-y-1 px-2">
+          {menuItems.map(item => {
+            const isActive = currentView === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => onNavigate(item.id)}
+                className={`w-full group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ease-in-out cursor-pointer ${
+                  isActive
+                    ? "bg-indigo-500/15 text-indigo-300 font-bold border-r-4 border-indigo-400"
+                    : "text-slate-400 hover:bg-white/5 hover:text-white"
+                }`}
+              >
+                <span className={`material-symbols-outlined mr-3 text-xl transition-transform group-hover:scale-105 ${isActive ? "font-bold text-indigo-300" : "text-slate-400"}`}>
+                  {item.icon}
+                </span>
+                <span>{item.label}</span>
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* Sonic Environment Diagnostic Feeds */}
+        <div className="mx-3 p-4 bg-white/5 border border-white/10 rounded-2xl flex flex-col gap-3 select-none">
+          <div className="flex items-center justify-between">
+            <p className="text-[10px] text-slate-400 font-mono font-bold uppercase tracking-wider flex items-center gap-1">
+              <span className="material-symbols-outlined text-[12px] text-indigo-400 animate-pulse">volume_up</span>
+              Sonic Diagnostics
+            </p>
+            {activeAudioFeed !== "off" && (
+              <span className="text-[9px] font-mono font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded animate-pulse">
+                LIVE FEED
+              </span>
+            )}
+          </div>
+
+          <div className="grid grid-cols-2 gap-1.5">
+            <button
+              onClick={() => handleAudioToggle("lake")}
+              className={`px-2 py-1.5 rounded-lg text-[10px] font-bold text-left truncate transition-all duration-150 cursor-pointer ${
+                activeAudioFeed === "lake"
+                  ? "bg-indigo-500/20 border border-indigo-400 text-indigo-200"
+                  : "bg-white/5 border border-transparent text-slate-400 hover:text-white hover:bg-white/10"
+              }`}
+              title="Listen to synthesized low-frequency lake wave noise"
+            >
+              🌊 Upper Lake
+            </button>
+            <button
+              onClick={() => handleAudioToggle("transit")}
+              className={`px-2 py-1.5 rounded-lg text-[10px] font-bold text-left truncate transition-all duration-150 cursor-pointer ${
+                activeAudioFeed === "transit"
+                  ? "bg-indigo-500/20 border border-indigo-400 text-indigo-200"
+                  : "bg-white/5 border border-transparent text-slate-400 hover:text-white hover:bg-white/10"
+              }`}
+              title="Listen to synthesized deep 55Hz transit hum"
+            >
+              ⚡ Transit Hum
+            </button>
+            <button
+              onClick={() => handleAudioToggle("solar")}
+              className={`px-2 py-1.5 rounded-lg text-[10px] font-bold text-left truncate transition-all duration-150 cursor-pointer ${
+                activeAudioFeed === "solar"
+                  ? "bg-indigo-500/20 border border-indigo-400 text-indigo-200"
+                  : "bg-white/5 border border-transparent text-slate-400 hover:text-white hover:bg-white/10"
+              }`}
+              title="Listen to solar grid inverter micro resonance"
+            >
+              🔆 Solar Inverters
+            </button>
+            <button
+              onClick={() => handleAudioToggle("park")}
+              className={`px-2 py-1.5 rounded-lg text-[10px] font-bold text-left truncate transition-all duration-150 cursor-pointer ${
+                activeAudioFeed === "park"
+                  ? "bg-indigo-500/20 border border-indigo-400 text-indigo-200"
+                  : "bg-white/5 border border-transparent text-slate-400 hover:text-white hover:bg-white/10"
+              }`}
+              title="Listen to synthesized organic biosphere park birds"
+            >
+              🌲 Park Biosphere
+            </button>
+          </div>
+
+          <button
+            onClick={() => {
+              soundscapeEngine.stopAll();
+              setActiveAudioFeed("off");
+            }}
+            className={`w-full py-1.5 rounded-lg text-[10px] font-bold text-center transition-all duration-150 cursor-pointer border ${
+              activeAudioFeed === "off"
+                ? "bg-slate-900/60 border-white/5 text-slate-500 cursor-not-allowed"
+                : "bg-rose-500/10 border-rose-500/30 text-rose-300 hover:bg-rose-500/20"
+            }`}
+            disabled={activeAudioFeed === "off"}
+            title="Stop all sound feeds"
+          >
+            {activeAudioFeed === "off" ? "🔇 Audio Off" : "🔇 Stop Sound Feed"}
+          </button>
+
+          {activeAudioFeed !== "off" && (
+            <div className="flex items-center gap-2 pt-1 border-t border-white/5 mt-1">
+              <span className="material-symbols-outlined text-[13px] text-slate-400">volume_down</span>
+              <input
+                type="range"
+                min="0.01"
+                max="0.90"
+                step="0.01"
+                value={audioVolume}
+                onChange={handleVolumeChange}
+                className="w-full h-1 bg-white/10 rounded-lg appearance-none accent-indigo-500 cursor-pointer"
+              />
+              <span className="material-symbols-outlined text-[13px] text-slate-400">volume_up</span>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Navigation Links */}
-      <nav className="flex-1 space-y-1 px-3">
-        {menuItems.map(item => {
-          const isActive = currentView === item.id;
-          return (
-            <button
-              key={item.id}
-              onClick={() => onNavigate(item.id)}
-              className={`w-full group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ease-in-out cursor-pointer ${
-                isActive
-                  ? "bg-indigo-500/15 text-indigo-300 font-bold border-r-4 border-indigo-400"
-                  : "text-slate-400 hover:bg-white/5 hover:text-white"
-              }`}
-            >
-              <span className={`material-symbols-outlined mr-3 text-xl transition-transform group-hover:scale-105 ${isActive ? "font-bold text-indigo-300" : "text-slate-400"}`}>
-                {item.icon}
-              </span>
-              <span>{item.label}</span>
-            </button>
-          );
-        })}
-      </nav>
-
-      {/* User profile dropdown selector */}
-      <div className="px-4 mt-auto relative">
+      {/* User profile dropdown selector - Fixed */}
+      <div className="px-4 mt-auto pt-4 border-t border-white/5 shrink-0 relative">
         {showProfileSelector && (
           <div className="absolute bottom-16 left-4 right-4 bg-slate-950 rounded-xl shadow-2xl border border-white/15 p-2.5 z-50 animate-in fade-in slide-in-from-bottom-2 duration-150 text-white">
             <p className="text-[10px] font-bold text-slate-400 uppercase px-3 pt-1 pb-2">
@@ -140,7 +229,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     src={profile.img}
                     alt={profile.name}
                     referrerPolicy="no-referrer"
-                  />
+                  ></img>
                   <div>
                     <p className="font-semibold text-white">{profile.name}</p>
                     <p className="text-[10px] text-slate-400">{profile.role}</p>
@@ -161,7 +250,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             src={selectedProfile.img}
             alt={selectedProfile.name}
             referrerPolicy="no-referrer"
-          />
+          ></img>
           <div className="overflow-hidden flex-1">
             <p className="text-sm font-bold text-white truncate flex items-center justify-between">
               {selectedProfile.name}

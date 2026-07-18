@@ -36,6 +36,28 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 z-50 glass-panel border-b border-white/10 flex justify-between items-center px-10 text-white backdrop-blur-xl">
+      {/* Search Input Bar */}
+      <div className="relative max-w-sm w-full mr-6 hidden sm:block">
+        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-base">
+          search
+        </span>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => onSearchChange(e.target.value)}
+          placeholder="Search civic alerts or reports..."
+          className="w-full bg-white/5 hover:bg-white/10 focus:bg-slate-900/85 border border-white/10 rounded-xl py-1.5 pl-9 pr-8 text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all font-sans"
+        />
+        {searchQuery && (
+          <button
+            onClick={() => onSearchChange("")}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-xs">close</span>
+          </button>
+        )}
+      </div>
+
       <div className="flex-1" />
 
       {/* Header Quick Stats & Icons */}

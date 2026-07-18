@@ -767,6 +767,67 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               </div>
             </div>
 
+            {/* Environmental Microclimate Diagnostics sensor readings */}
+            {(() => {
+              // Derive environmental stats dynamically based on district profile
+              let aqi = 55;
+              let humidity = 58;
+              let wind = "12.5 km/h NW";
+              let pm25 = 14.2;
+              let aqiColor = "text-emerald-400";
+              let aqiStatus = "Excellent";
+
+              if (selectedDistrict === "District 1") {
+                aqi = 145; humidity = 42; wind = "4.8 km/h SE"; pm25 = 38.5; aqiColor = "text-rose-400"; aqiStatus = "Unhealthy (Sensitive)";
+              } else if (selectedDistrict === "District 2") {
+                aqi = 58; humidity = 64; wind = "12.1 km/h W"; pm25 = 12.2; aqiColor = "text-emerald-300"; aqiStatus = "Good";
+              } else if (selectedDistrict === "District 4") {
+                aqi = 45; humidity = 78; wind = "19.4 km/h SSE"; pm25 = 8.4; aqiColor = "text-emerald-400"; aqiStatus = "Excellent";
+              } else if (selectedDistrict === "District 7") {
+                aqi = 22; humidity = 50; wind = "24.8 km/h NW"; pm25 = 4.1; aqiColor = "text-emerald-400"; aqiStatus = "Excellent";
+              } else if (selectedDistrict === "District 9") {
+                aqi = 188; humidity = 38; wind = "8.2 km/h NE"; pm25 = 74.5; aqiColor = "text-rose-500 animate-pulse"; aqiStatus = "Unhealthy";
+              } else if (selectedDistrict === "District 5") {
+                aqi = 35; humidity = 58; wind = "11.5 km/h NNE"; pm25 = 6.8; aqiColor = "text-emerald-400"; aqiStatus = "Excellent";
+              }
+
+              return (
+                <div className="pt-3 border-t border-white/5 space-y-3">
+                  <p className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5 select-none">
+                    <span className="material-symbols-outlined text-xs text-indigo-400 animate-pulse">airwave</span>
+                    Microclimate & Ambient Sensors
+                  </p>
+                  
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-left">
+                    <div className="space-y-0.5">
+                      <p className="text-[8px] font-mono font-bold text-slate-400 uppercase tracking-wider select-none">Air Quality Index</p>
+                      <p className={`text-xs font-extrabold ${aqiColor} font-mono flex items-center gap-1`}>
+                        {aqi} AQI <span className="text-[9px] font-normal text-slate-400">({aqiStatus})</span>
+                      </p>
+                    </div>
+
+                    <div className="space-y-0.5">
+                      <p className="text-[8px] font-mono font-bold text-slate-400 uppercase tracking-wider select-none">Relative Humidity</p>
+                      <p className="text-xs font-extrabold text-white font-mono">{humidity}% RH</p>
+                    </div>
+
+                    <div className="space-y-0.5">
+                      <p className="text-[8px] font-mono font-bold text-slate-400 uppercase tracking-wider select-none">Wind Velocity</p>
+                      <p className="text-xs font-extrabold text-white font-mono flex items-center gap-0.5">
+                        <span className="material-symbols-outlined text-[11px] text-sky-400">wind_power</span>
+                        {wind}
+                      </p>
+                    </div>
+
+                    <div className="space-y-0.5">
+                      <p className="text-[8px] font-mono font-bold text-slate-400 uppercase tracking-wider select-none">Particulate PM2.5</p>
+                      <p className="text-xs font-extrabold text-white font-mono">{pm25} µg/m³</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+
             <p className="text-xs text-slate-300 leading-relaxed font-sans pt-1 border-t border-white/5">
               {activeDistrictData.description}
             </p>

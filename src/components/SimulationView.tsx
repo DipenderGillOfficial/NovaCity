@@ -14,6 +14,7 @@ interface SimulationViewProps {
   isSimulating: boolean;
   activeProfile?: string;
   onAddSuggestion?: (content: string, viewContext: string) => void;
+  isResultStale?: boolean;
 }
 
 export const SimulationView: React.FC<SimulationViewProps> = ({
@@ -23,7 +24,8 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
   onRunSimulation,
   isSimulating,
   activeProfile,
-  onAddSuggestion
+  onAddSuggestion,
+  isResultStale
 }) => {
   const [activeZone, setActiveZone] = useState<string>("Zone 7");
   const [mapType, setMapType] = useState<"bhopal" | "bhopal_satellite" | "bhopal_tech">("bhopal_satellite");
@@ -117,6 +119,55 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
                 stroke="rgba(16, 185, 129, 0.35)" 
                 strokeWidth="1.5"
                 className="transition-all duration-300"
+              />
+
+              {/* Dynamic Transit Network Routes connecting key hubs */}
+              {/* Route 1: Bhopal Junction Hub (60%, 28%) -> MP Nagar Commercial (68%, 48%) */}
+              <line 
+                x1="60%" y1="28%" x2="68%" y2="48%"
+                stroke="rgba(99, 102, 241, 0.25)"
+                strokeWidth="4"
+                strokeLinecap="round"
+              />
+              <line 
+                x1="60%" y1="28%" x2="68%" y2="48%"
+                stroke="#a5b4fc"
+                strokeWidth="2"
+                strokeLinecap="round"
+                className="transit-line-active"
+                style={{ animationDuration: `${Math.max(0.3, params.publicTransitFrequency * 0.25)}s` }}
+              />
+
+              {/* Route 2: Bhopal Junction Hub (60%, 28%) -> Upper Lake Oasis (30%, 62%) */}
+              <line 
+                x1="60%" y1="28%" x2="30%" y2="62%"
+                stroke="rgba(99, 102, 241, 0.25)"
+                strokeWidth="4"
+                strokeLinecap="round"
+              />
+              <line 
+                x1="60%" y1="28%" x2="30%" y2="62%"
+                stroke="#a5b4fc"
+                strokeWidth="2"
+                strokeLinecap="round"
+                className="transit-line-active"
+                style={{ animationDuration: `${Math.max(0.3, params.publicTransitFrequency * 0.25)}s` }}
+              />
+
+              {/* Route 3: MP Nagar Commercial (68%, 48%) -> Arera Hills Sector (55%, 45%) */}
+              <line 
+                x1="68%" y1="48%" x2="55%" y2="45%"
+                stroke="rgba(99, 102, 241, 0.25)"
+                strokeWidth="4"
+                strokeLinecap="round"
+              />
+              <line 
+                x1="68%" y1="48%" x2="55%" y2="45%"
+                stroke="#a5b4fc"
+                strokeWidth="2"
+                strokeLinecap="round"
+                className="transit-line-active"
+                style={{ animationDuration: `${Math.max(0.3, params.publicTransitFrequency * 0.25)}s` }}
               />
             </svg>
           )}
@@ -275,30 +326,7 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
                 </p>
               </div>
 
-              {/* Parameter 3: Building Height Limits */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center text-xs">
-                  <label className="font-bold text-slate-200">Building Height Limits</label>
-                  <span className="font-mono font-bold text-indigo-300 bg-indigo-500/10 px-2 py-0.5 rounded">
-                    {params.buildingHeightLimits}m
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min="10"
-                  max="500"
-                  step="5"
-                  value={params.buildingHeightLimits}
-                  onChange={(e) => setParam("buildingHeightLimits", parseInt(e.target.value))}
-                  disabled={activeProfile === "admin_unit_01"}
-                  className={`w-full h-1 bg-white/10 rounded-lg appearance-none accent-indigo-500 ${
-                    activeProfile === "admin_unit_01" ? "cursor-not-allowed opacity-40" : "cursor-pointer"
-                  }`}
-                />
-                <p className="text-[10px] text-slate-400 leading-normal">
-                  Maximum permitted vertical height for structural skyscrapers and zoning in Zone 7.
-                </p>
-              </div>
+
 
               {/* Toggle Switch Parameter 4 */}
               <div className="pt-4 border-t border-white/10">
@@ -383,9 +411,17 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
           }`}
         >
           
-          <h3 className="text-sm font-extrabold text-white font-sans flex items-center px-1 border-b border-white/10 pb-2">
-            <span className="material-symbols-outlined mr-2 text-indigo-400 text-lg">analytics</span>
-            Impact Prediction
+          <h3 className="text-sm font-extrabold text-white font-sans flex items-center justify-between px-1 border-b border-white/10 pb-2">
+            <span className="flex items-center">
+              <span className="material-symbols-outlined mr-2 text-indigo-400 text-lg">analytics</span>
+              Impact Prediction
+            </span>
+            {isResultStale && (
+              <span className="flex items-center gap-1 text-[9px] font-mono font-bold text-amber-400 bg-amber-400/10 border border-amber-500/20 rounded px-1.5 py-0.5 animate-pulse">
+                <span className="material-symbols-outlined text-[10px]">warning</span>
+                STALE
+              </span>
+            )}
           </h3>
 
           {/* Trigger Compute Simulation CTA (moved to top) */}
@@ -441,13 +477,17 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
               <button
                 onClick={onRunSimulation}
                 disabled={isSimulating}
-                className="w-full bg-indigo-600 text-white py-4 px-6 rounded-xl font-bold flex items-center justify-center gap-3 shadow-lg shadow-indigo-600/20 hover:bg-indigo-500 active:scale-[0.98] transition-all group overflow-hidden relative cursor-pointer"
+                className={`w-full text-white py-4 px-6 rounded-xl font-bold flex items-center justify-center gap-3 shadow-lg transition-all group overflow-hidden relative cursor-pointer ${
+                  isResultStale 
+                    ? "bg-amber-600 hover:bg-amber-500 shadow-amber-600/30 ring-2 ring-amber-500 ring-offset-2 ring-offset-[#0b1329] animate-pulse" 
+                    : "bg-indigo-600 hover:bg-indigo-500 shadow-indigo-600/20 active:scale-[0.98]"
+                }`}
               >
                 <span className={`material-symbols-outlined ${isSimulating ? "animate-spin" : "group-hover:rotate-180 transition-transform duration-500"}`}>
                   autorenew
                 </span>
                 <span className="text-md">
-                  {isSimulating ? "Computing Forecast..." : "Run Simulation"}
+                  {isSimulating ? "Computing Forecast..." : isResultStale ? "Update Forecast Model" : "Run Simulation"}
                 </span>
 
                 {/* Sliding progress bar overlay matching screenshot */}
@@ -468,16 +508,30 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
                 <span className="material-symbols-outlined text-4xl text-indigo-400">eco</span>
               </div>
               <p className="font-mono text-[9px] uppercase tracking-widest text-slate-400">CO2 Reduction</p>
-              <div className="flex items-baseline gap-2 mt-1">
-                <h4 className="text-2xl font-extrabold text-indigo-300">{result.co2Reduction}</h4>
-                <span className="text-xs font-bold text-indigo-400">↑ 4.2</span>
-              </div>
-              <div className="w-full bg-white/10 h-1 mt-3 rounded-full overflow-hidden">
-                <div className="bg-indigo-500 h-full transition-all duration-1000" style={{ width: "72%" }}></div>
-              </div>
-              <p className="text-[10px] text-slate-400 mt-2.5 leading-snug">
-                {result.co2Detail}
-              </p>
+              
+              <motion.div
+                key={result.co2Reduction}
+                initial={{ opacity: 0, scale: 0.95, y: 5 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="mt-1"
+              >
+                <div className="flex items-baseline gap-2">
+                  <h4 className="text-2xl font-extrabold text-indigo-300">{result.co2Reduction}</h4>
+                  <span className="text-xs font-bold text-indigo-400">↑ 4.2</span>
+                </div>
+                <div className="w-full bg-white/10 h-1 mt-3 rounded-full overflow-hidden">
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    animate={{ width: "72%" }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className="bg-indigo-500 h-full"
+                  />
+                </div>
+                <p className="text-[10px] text-slate-400 mt-2.5 leading-snug">
+                  {result.co2Detail}
+                </p>
+              </motion.div>
             </div>
 
             {/* Impact Card 2: Estimated ROI */}
@@ -486,19 +540,38 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
                 <span className="material-symbols-outlined text-4xl text-pink-400">monetization_on</span>
               </div>
               <p className="font-mono text-[9px] uppercase tracking-widest text-slate-400">Estimated ROI</p>
-              <div className="flex items-baseline gap-2 mt-1">
-                <h4 className="text-2xl font-extrabold text-white">{result.estimatedRoi}</h4>
-                <span className="text-xs text-pink-300 font-bold">{result.roiPeriod}</span>
-              </div>
-              <div className="flex mt-3 gap-1.5 select-none">
-                <div className="h-1 flex-1 bg-pink-500 rounded-full"></div>
-                <div className="h-1 flex-1 bg-pink-500 rounded-full"></div>
-                <div className="h-1 flex-1 bg-white/10 rounded-full"></div>
-                <div className="h-1 flex-1 bg-white/10 rounded-full"></div>
-              </div>
-              <p className="text-[10px] text-slate-400 mt-2.5 leading-snug">
-                {result.roiDetail}
-              </p>
+              
+              <motion.div
+                key={result.estimatedRoi}
+                initial={{ opacity: 0, scale: 0.95, y: 5 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="mt-1"
+              >
+                <div className="flex items-baseline gap-2">
+                  <h4 className="text-2xl font-extrabold text-white">{result.estimatedRoi}</h4>
+                  <span className="text-xs text-pink-300 font-bold">{result.roiPeriod}</span>
+                </div>
+                <div className="flex mt-3 gap-1.5 select-none">
+                  <motion.div 
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 0.5, delay: 0.05 }}
+                    className="h-1 flex-1 bg-pink-500 rounded-full origin-left"
+                  />
+                  <motion.div 
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 0.5, delay: 0.15 }}
+                    className="h-1 flex-1 bg-pink-500 rounded-full origin-left"
+                  />
+                  <div className="h-1 flex-1 bg-white/10 rounded-full"></div>
+                  <div className="h-1 flex-1 bg-white/10 rounded-full"></div>
+                </div>
+                <p className="text-[10px] text-slate-400 mt-2.5 leading-snug">
+                  {result.roiDetail}
+                </p>
+              </motion.div>
             </div>
 
             {/* Impact Card 3: Traffic Impact */}
@@ -507,17 +580,32 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
                 <span className="material-symbols-outlined text-4xl text-slate-400">commute</span>
               </div>
               <p className="font-mono text-[9px] uppercase tracking-widest text-slate-400">Traffic Impact</p>
-              <div className="flex items-baseline gap-2 mt-1">
-                <h4 className="text-2xl font-extrabold text-white">{result.trafficImpact}</h4>
-                <span className="text-xs text-slate-400 font-medium">Avg Trip</span>
-              </div>
-              <p className="text-[10px] text-slate-400 mt-2.5 leading-snug">
-                {result.trafficDetail}
-              </p>
+              
+              <motion.div
+                key={result.trafficImpact}
+                initial={{ opacity: 0, scale: 0.95, y: 5 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="mt-1"
+              >
+                <div className="flex items-baseline gap-2">
+                  <h4 className="text-2xl font-extrabold text-white">{result.trafficImpact}</h4>
+                  <span className="text-xs text-slate-400 font-medium">Avg Trip</span>
+                </div>
+                <p className="text-[10px] text-slate-400 mt-2.5 leading-snug">
+                  {result.trafficDetail}
+                </p>
+              </motion.div>
             </div>
 
             {/* AI Advisor Core Suggestion Block */}
-            <div className="p-3 bg-indigo-500/5 rounded-xl border border-white/10 text-[11px] text-slate-300">
+            <motion.div 
+              key={result.recommendation}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="p-3 bg-indigo-500/5 rounded-xl border border-white/10 text-[11px] text-slate-300"
+            >
               <p className="font-bold text-indigo-300 flex items-center gap-1 uppercase tracking-wider mb-1">
                 <span className="material-symbols-outlined text-sm">psychology</span>
                 Bloomfield AI Core Advice
@@ -530,7 +618,7 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
                   Risk: {result.riskAssessment}
                 </p>
               )}
-            </div>
+            </motion.div>
 
             {/* Feature 3: Actionable Civic Policies */}
             <div className="space-y-2 pt-2 border-t border-white/10 select-none">
@@ -652,7 +740,15 @@ export const SimulationView: React.FC<SimulationViewProps> = ({
               <p className="text-[9px] uppercase tracking-widest text-slate-400 font-bold leading-none">
                 Grid Load
               </p>
-              <p className="font-mono text-sm text-white font-bold mt-1">{result.gridLoadImpact}</p>
+              <motion.p 
+                key={result.gridLoadImpact}
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                className="font-mono text-sm text-white font-bold mt-1"
+              >
+                {result.gridLoadImpact}
+              </motion.p>
             </div>
           </div>
         </div>

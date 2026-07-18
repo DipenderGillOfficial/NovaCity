@@ -201,21 +201,25 @@
 
 /* Webkit Scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(0, 0, 0, 0.15);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #bbcabf;
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #006c49;
+  background: rgba(255, 255, 255, 0.25);
+  border: 2px solid transparent;
+  background-clip: padding-box;
 }
 
 /* ==========================================================================
@@ -369,5 +373,18 @@
   opacity: 0.12 !important;
   filter: blur(150px) !important;
 }
+
+/* Dynamic Transit Flow Animation */
+@keyframes transitFlow {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+.transit-line-active {
+  stroke-dasharray: 8, 8;
+  animation: transitFlow 2s linear infinite;
+}
+
 
 

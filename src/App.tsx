@@ -124,6 +124,11 @@ export default function App() {
     return saved ? JSON.parse(saved) : INITIAL_SIMULATION_PARAMS;
   });
 
+  const [lastSimulatedParams, setLastSimulatedParams] = useState<SimulationParams>(() => {
+    const saved = localStorage.getItem("bloomfield_last_sim_params");
+    return saved ? JSON.parse(saved) : INITIAL_SIMULATION_PARAMS;
+  });
+
   const [simulationResult, setSimulationResult] = useState<SimulationResult>(() => {
     const saved = localStorage.getItem("bloomfield_sim_result");
     return saved ? JSON.parse(saved) : INITIAL_SIMULATION_RESULT;
@@ -172,6 +177,10 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("bloomfield_sim_params", JSON.stringify(simulationParams));
   }, [simulationParams]);
+
+  useEffect(() => {
+    localStorage.setItem("bloomfield_last_sim_params", JSON.stringify(lastSimulatedParams));
+  }, [lastSimulatedParams]);
 
   useEffect(() => {
     localStorage.setItem("bloomfield_sim_result", JSON.stringify(simulationResult));
@@ -294,7 +303,7 @@ export default function App() {
         co2Detail: `Calculated from ${simulationParams.greenSpaceRatio}% green space and optimized albedo coating.`,
         estimatedRoi: `$${roiVal}M`,
         roiPeriod: "15mo",
-        roiDetail: `Estimated ROI period of 15 months with height limit cap at ${simulationParams.buildingHeightLimits}m.`,
+        roiDetail: `Estimated ROI period of 15 months calculated based on municipal fuel tax offset and energy savings.`,
         trafficImpact: `-${trafficVal}%`,
         trafficDetail: `Average commute reduction across district corridors.`,
         recommendation: "Excellent progress. We advise expanding public electric shuttle counts to District 4.",
@@ -303,6 +312,7 @@ export default function App() {
       });
     } finally {
       setIsSimulating(false);
+      setLastSimulatedParams(simulationParams);
     }
   };
 
@@ -408,7 +418,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 flex text-white font-sans">
+    <div className="min-h-screen bg-transparent flex text-white font-sans">
       
       {/* Sidebar Rail Layout Component */}
       <Sidebar
@@ -462,18 +472,25 @@ export default function App() {
               />
             )}
 
-            {currentView === "simulation" && (
-              <SimulationView
-                key="simulation"
-                params={simulationParams}
-                onParamsChange={setSimulationParams}
-                result={simulationResult}
-                onRunSimulation={handleRunSimulation}
-                isSimulating={isSimulating}
-                activeProfile={activeProfile}
-                onAddSuggestion={handleAddSuggestion}
-              />
-            )}
+            {currentView === "simulation" && (() => {
+              const isResultStale = 
+                simulationParams.greenSpaceRatio !== lastSimulatedParams.greenSpaceRatio ||
+                simulationParams.publicTransitFrequency !== lastSimulatedParams.publicTransitFrequency ||
+                simulationParams.optimizeAlbedo !== lastSimulatedParams.optimizeAlbedo;
+              return (
+                <SimulationView
+                  key="simulation"
+                  params={simulationParams}
+                  onParamsChange={setSimulationParams}
+                  result={simulationResult}
+                  onRunSimulation={handleRunSimulation}
+                  isSimulating={isSimulating}
+                  activeProfile={activeProfile}
+                  onAddSuggestion={handleAddSuggestion}
+                  isResultStale={isResultStale}
+                />
+              );
+            })()}
 
             {currentView === "maps" && (
               <ResourceMapsView
